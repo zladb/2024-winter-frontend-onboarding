@@ -1,65 +1,20 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
 :root {
-  --font-small-size: 18px;
-  --font-medium-size: 22px;
+  --font-small: 14px;
+  --font-medium: 18px;
   --base-space: 8px;
   --half-base-space: 4px;
-  /* --font-small: 14px;
-  --font-medium: 18px;
-  --base-space: 8px; */
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  header {
-    width: 100%;
-    max-width: 1380px;
-    margin: 0 22px;
-  }
-
-  .main {
-    width: 100%;
-    max-width: 1380px;
-  }
-
-  .main__contents {
-    /* min-width: 700px; */
-    width: 100%;
-    max-width: 1500px;
-    display: flex;
-  }
-
-  #main__contents--calendar,
-  #main__contents--todo {
-    display: inline;
-  }
-
-  #main__contents--calendar {
-    width: 550px;
-    margin-right: 100px;
-  }
-
-  #main__contents--todo {
-    flex: 1 0 auto;
-    /* flex-grow: 1; */
-  }
 }
 
 body {
   font-family: "Noto Sans KR", sans-serif;
   /* color: tomato; */
-  margin: 32px;
+  margin: calc(var(--base-space) * 2);
 }
 
 header {
-  width: 100%;
+  width: 100;
   height: 40px;
   display: flex;
   align-items: center;
@@ -68,7 +23,7 @@ header {
 
 nav {
   width: 100%;
-  height: 60px;
+  height: 10%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -82,13 +37,18 @@ tr {
   width: 100;
   display: flex;
   justify-content: space-between;
-  margin: var(--half-base-space) var(--half-base-space) var(--base-space)
-    var(--half-base-space);
+  font-size: var(--font-small);
+  margin: var(--base-space) 0px;
 }
 
 th {
-  font-size: calc(var(--base-space)+2);
-  font-weight: 500;
+  font-size: var(--font-small);
+  font-weight: 400;
+}
+
+svg {
+  width: 24px;
+  height: 24px;
 }
 
 .day {
@@ -106,12 +66,12 @@ th {
 }
 
 .icon {
-  margin: 0px var(--base-space);
+  margin: 0px var(--half-base-space);
 }
 
 .bi-bell,
 .bi-three-dots {
-  font-size: 30px;
+  font-size: var(--font-medium);
 }
 
 .arrows {
@@ -121,25 +81,26 @@ th {
 
 .bi-chevron-left,
 .bi-chevron-right {
-  font-size: var(--font-medium-size);
+  font-size: var(--font-small);
   /* font-weight: 900; */
   padding-left: calc(var(--base-space) * 2);
 }
 
 .year-month {
-  font-size: var(--font-medium-size);
+  font-size: var(--font-small);
   font-weight: 700;
 }
 
 .weeks {
   display: flex;
   justify-content: space-between;
-  margin: 14px 14px 0px 14px;
+  margin: var(--base-space) 5px;
+  /* margin: 14px 14px 0px 14px; */
 }
 
 .week-day {
   font-weight: 400;
-  font-size: var(--font-small-size);
+  font-size: var(--font-small);
 }
 
 .todo {
@@ -156,26 +117,26 @@ th {
   background-color: tomato;
   border-radius: 50px;
   border: none;
-  padding: calc(var(--base-space) * 2);
+  padding: var(--base-space);
   margin: var(--base-space) 0;
   color: white;
-  font-weight: 700;
-  font-size: var(--font-small-size);
+  font-weight: 500;
+  font-size: var(--font-small);
 }
 
 #main__contents--todo {
-  margin: 40px 0px;
+  margin: 30px 0px;
 }
 
 .todo__item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--base-space) 0px;
+  padding: calc(var(--base-space) / 2) 0px;
 }
 
 .todo__item--text {
-  font-size: var(--font-medium-size);
+  font-size: var(--font-small);
   font-weight: 400;
   flex: 1;
   padding: 0 var(--base-space);
