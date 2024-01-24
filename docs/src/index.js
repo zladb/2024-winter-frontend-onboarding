@@ -120,7 +120,7 @@ async function renderCalender(date) {
 }
 
 // 선택한 날짜를 포커싱하고 date를 새로 지정함.
-function focus_day(date, prev_date) {
+function focusedDay(date, prev_date) {
   let seleted_day = document.getElementById(String(date));
   seleted_day.classList.add("selected");
 
@@ -161,7 +161,7 @@ const attachDayHandler = () => {
   document.querySelectorAll(".day").forEach((dayElement) => {
     dayElement.addEventListener("click", (event) => {
       const selectedDay = event.target.closest(".day");
-      focus_day(selectedDay.id, prev_date);
+      focusedDay(selectedDay.id, prev_date);
       prev_date = selectedDay.id;
       date = parseDate(selectedDay.id);
       console.log(`new date => ${date}`);
@@ -178,7 +178,7 @@ document.querySelector(`#prev`).onclick = () => {
   renderCalender(new Date(date.setMonth(date.getMonth()))).then(
     attachDayHandler
   );
-  focus_day(prev_date);
+  focusedDay(prev_date);
 };
 
 // 다음달 이동
@@ -193,7 +193,7 @@ document.querySelector(`#next`).onclick = () => {
   renderCalender(new Date(date.setMonth(date.getMonth()))).then(
     attachDayHandler
   );
-  focus_day(prev_date);
+  focusedDay(prev_date);
 };
 
 let date = new Date();
@@ -201,7 +201,7 @@ let formatted_date = getFormattedDate(date);
 let prev_date = formatted_date;
 
 renderCalender(date).then(attachDayHandler);
-focus_day(formatted_date);
+focusedDay(formatted_date);
 
 //-------------------------todo 부분---------------------------------
 
