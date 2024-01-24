@@ -128,3 +128,84 @@ document.querySelector(`#prev`).onclick = () => {
 document.querySelector(`#next`).onclick = () => {
   renderCalender(new Date(date.setMonth(date.getMonth() + 1)));
 };
+
+let id_cnt = 0;
+
+// 투두 등록하기
+async function addTodoItem() {
+  const dailyRoutineContainer = document.querySelector("#daily-routine");
+
+  // 새로운 todo__item 생성하기 with text input
+  const todoItem = document.createElement("div");
+  todoItem.className = "todo__item";
+
+  todoItem.innerHTML = `
+  <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="34"
+  height="34"
+  viewBox="0 0 151 151"
+  fill="none"
+>
+  <path
+    fill="#D9D9D9"
+    d="M100.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
+  />
+  <path
+    fill="#D9D9D9"
+    d="M150.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
+  />
+  <path
+    fill="#D9D9D9"
+    d="M150.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
+  />
+  <path
+    fill="#D9D9D9"
+    d="M100.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
+  />
+</svg>
+<input type="text" id="todo-item--input" placeholder="할 일 입력"></input>
+<div id="new_todo"></div>
+    <i class="bi bi-three-dots icon"></i>
+  `;
+
+  dailyRoutineContainer.appendChild(todoItem);
+
+  // input- 설정
+  let input = document.getElementById("todo-item--input");
+  input.focus();
+  input.style = styleInput;
+
+  // input 입력 후, 엔터를 치면 input은 삭제하고 input값을 todo_iteem--text에 넣어줌.
+  input.addEventListener("keypress", function (key) {
+    if (key.key == "Enter") {
+      let inputValue = input.value;
+      input.remove();
+      todo_text = document.getElementById("new_todo");
+      todo_text.textContent = inputValue;
+      todo_text.id = id_cnt++;
+      todo_text.classList.add("todo__item--text");
+
+      // 버튼은 다시 활성화 해줌.
+      document.getElementById("daily-routine-button").disabled = false;
+    }
+  });
+
+  return;
+}
+
+document.querySelector("#daily-routine-button").onclick = async () => {
+  document.getElementById("daily-routine-button").disabled = true;
+  addTodoItem();
+};
+
+const styleInput = `
+  flex: 2;
+  border: none;
+  margin: 0 var(--base-space);
+  padding-bottom: 8px;
+  padding: 8px 0px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid tomato;
+`;

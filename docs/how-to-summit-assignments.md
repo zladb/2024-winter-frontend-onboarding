@@ -17,13 +17,16 @@
 git clone https://github.com/{본인_아이디}/{저장소_아이디}.git
 # ex) git clone https://github.com/scv1702/2024-winter-frontend-onboarding.git
 ```
+
 2. clone한 디렉토리로 이동한다.
+
 ```bash
 cd {저장소_아이디}
 # ex) cd 2024-winter-frontend-onboarding
 ```
 
 ## 3. 기능 구현을 위한 브랜치 생성
+
 - Git은 서로 다른 작업을 하기 위한 별도의 공간을 만들기 위해 브랜치를 생성할 수 있다.
 
 1. 터미널에서 다음 명령을 입력해 브랜치를 생성한다.
@@ -53,7 +56,8 @@ git commit -m "메시지" // 작업한 내용을 메시지에 기록
 
 ## 7. 본인 원격 저장소에 올리기
 
--로컬에서 `commit` 명령을 실행하면 로컬 저장소에만 반영되고, 원격 Github의 저장소에는 반영되지 않는다.      
+-로컬에서 `commit` 명령을 실행하면 로컬 저장소에만 반영되고, 원격 Github의 저장소에는 반영되지 않는다.
+
 - Github의 저장소에도 동일하게 반영하기 위해 push 명령어를 사용한다.
 
 ```bash
@@ -68,4 +72,4 @@ ex) git push origin scv1702
 - 예를 들어, 과제를 진행한 `scv1702/2024-winter-frontend-onboarding scv1702` 브랜치에서 `Principes-Artis-Mechanicae/2024-winter-frontend-onboarding scv1702` 브랜치로 Pull Request를 보낸다.
 - Pull Request 제목은 `신찬규 1주차 제출합니다.`와 같은 형식으로 작성한다.
 - 현재 과제에서 작업한 내용을 입력하고 **"Create pull request"** 버튼을 클릭해 Pull Request를 보낸다.
-> 🚨 주의: Pull Request 후 자신이 merge를 하지 않도록 주의한다.
+  > 🚨 주의: Pull Request 후 자신이 merge를 하지 않도록 주의한다.
