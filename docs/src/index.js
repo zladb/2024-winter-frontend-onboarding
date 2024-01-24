@@ -4,18 +4,20 @@
 // 4. 할일을 체크하면, 컬러가 바뀜.
 // 5. 할일 수정, 삭제
 
-const renderCalender = (date) => {
+//-------------------------달력 부분---------------------------------
+
+async function renderCalender(date) {
   const currentYear = date.getFullYear();
   const currentMonth = date.getMonth();
 
-  console.log(currentMonth, currentYear);
+  console.log(`${currentYear}년 ${currentMonth + 1}일`);
 
   document.querySelector(".year-month").textContent = `${currentYear}년 ${
     currentMonth + 1
   }월`;
 
   const firstDay = new Date(date.setDate(1)).getDay();
-  const lastDay = new Date(currentYear, currentMonth, 0).getDate(); // 0-> 가장 마지막 날
+  const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
 
   // 요일 구하기
   const limitDay = firstDay + lastDay;
@@ -26,7 +28,6 @@ const renderCalender = (date) => {
   // 달력의 공백 - 지난 달
   htmlDummy += `<tr>`;
   for (let i = 0; i < firstDay; i++) {
-    console.log("hi");
     htmlDummy += `<th class="day invisible"><svg
     xmlns="http://www.w3.org/2000/svg"
     width="34"
@@ -55,7 +56,9 @@ const renderCalender = (date) => {
 
   // 실제 달력 부분
   for (let i = 1; i <= lastDay; i++) {
-    htmlDummy += `<th class="day"><svg
+    htmlDummy += `<th class="day" id="${currentYear}-${String(
+      currentMonth + 1
+    ).padStart(2, "0")}-${String(i).padStart(2, "0")}"><svg
     xmlns="http://www.w3.org/2000/svg"
     width="34"
     height="34"
@@ -114,20 +117,93 @@ const renderCalender = (date) => {
   }
 
   document.querySelector("tbody").innerHTML = htmlDummy;
-};
+}
 
-let date = new Date();
-renderCalender(date);
+// 선택한 날짜를 포커싱하고 date를 새로 지정함.
+function focus_day(date, prev_date) {
+  let seleted_day = document.getElementById(String(date));
+  seleted_day.classList.add("selected");
+
+  if (arguments.length > 1 && date !== prev_date) {
+    let previous_day = document.getElementById(String(prev_date));
+    previous_day.classList.remove("selected");
+  }
+}
+
+// Date() -> yyyy-MM-dd
+function getFormattedDate(date) {
+  const today = date;
+
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+
+  const dateString = year + "-" + month + "-" + day;
+
+  return dateString;
+}
+
+// yyyy-MM-dd -> Date()
+function parseDate(date) {
+  // 문자열을 '-'를 기준으로 나누어 배열로 만듦
+  const dateArray = date.split("-");
+
+  // 년, 월, 일을 추출
+  const year = parseInt(dateArray[0], 10);
+  const month = parseInt(dateArray[1] - 1, 10);
+  const day = parseInt(dateArray[2], 10);
+
+  return new Date(year, month, day);
+}
+
+// 각 날마다 이벤트 핸들러 붙여주기 - 캘린더 렌더 후 실행
+const attachDayHandler = () => {
+  document.querySelectorAll(".day").forEach((dayElement) => {
+    dayElement.addEventListener("click", (event) => {
+      const selectedDay = event.target.closest(".day");
+      focus_day(selectedDay.id, prev_date);
+      prev_date = selectedDay.id;
+      date = parseDate(selectedDay.id);
+      console.log(`new date => ${date}`);
+    });
+  });
+};
 
 // 이전달 이동
 document.querySelector(`#prev`).onclick = () => {
-  renderCalender(new Date(date.setMonth(date.getMonth() - 1)));
+  const lastDayOfLastMonth = new Date(date.getFullYear(), date.getMonth(), 0);
+
+  date = lastDayOfLastMonth;
+  prev_date = getFormattedDate(date);
+  renderCalender(new Date(date.setMonth(date.getMonth()))).then(
+    attachDayHandler
+  );
+  focus_day(prev_date);
 };
 
 // 다음달 이동
 document.querySelector(`#next`).onclick = () => {
-  renderCalender(new Date(date.setMonth(date.getMonth() + 1)));
+  const firstDayOfNextMonth = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    1
+  );
+  date = firstDayOfNextMonth;
+  prev_date = getFormattedDate(date);
+  renderCalender(new Date(date.setMonth(date.getMonth()))).then(
+    attachDayHandler
+  );
+  focus_day(prev_date);
 };
+
+let date = new Date();
+let formatted_date = getFormattedDate(date);
+let prev_date = formatted_date;
+
+renderCalender(date).then(attachDayHandler);
+focus_day(formatted_date);
+
+//-------------------------todo 부분---------------------------------
 
 let id_cnt = 0;
 
