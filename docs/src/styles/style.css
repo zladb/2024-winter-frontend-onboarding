@@ -227,3 +227,18 @@ th {
   border: none;
   border-bottom: 1px solid tomato;
 }
+
+.icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.number-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -65%);
+  font-size: 14px; /* 적절한 크기로 조절하세요 */
+  color: white; /* 숫자 색상 */
+  font-weight: bold;
+}
