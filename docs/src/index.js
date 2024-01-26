@@ -1,10 +1,21 @@
 // 1. 실제로 작동하는 달력 구현. ✅
 // 2. 목표 설정 버튼을 누르면, 할일 입력 버튼이 나옴. ✅
 // 3. 할일을 입력하면 local storage에 데이터를 저장하고 todoList에 출력함. ✅
-// 4. 할일을 체크하면, 컬러가 바뀜.
+// 4. 할일을 체크하면, 컬러가 바뀜. ✅
 // 5. 할일 수정, 삭제
 
 //-------------------------달력 부분---------------------------------
+
+let date = new Date();
+let dateId = getFormattedDate(date);
+let prevDate = dateId;
+
+// 첫 달력 렌더링
+renderCalender(date).then(() => {
+  attachDayHandler();
+  focusedDay(dateId);
+  renderTodoItems(date);
+});
 
 async function renderCalender(date) {
   const currentYear = date.getFullYear();
@@ -16,11 +27,15 @@ async function renderCalender(date) {
     currentMonth + 1
   }월`;
 
+  // 첫 요일
   const firstDay = new Date(date.setDate(1)).getDay();
-  const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  // 처음 날짜, 마지막 날짜
+  const firstDate = new Date(currentYear, currentMonth, 1);
+  const lastDate = new Date(currentYear, currentMonth + 1, 0);
 
   // 요일 구하기
-  const limitDay = firstDay + lastDay;
+  const limitDay = firstDay + lastDate.getDate();
   const nextDay = Math.ceil(limitDay / 7) * 7;
 
   let htmlDummy = "";
@@ -28,51 +43,35 @@ async function renderCalender(date) {
   // 달력의 공백 - 지난 달
   htmlDummy += `<tr>`;
   for (let i = 0; i < firstDay; i++) {
-    htmlDummy += `<th class="day invisible">${createSvgIcon()}${i}</div>`;
+    htmlDummy += `<th class="day invisible">${renderCalendarIcon(date)}</div>`;
   }
 
   // 실제 달력 부분
-  for (let i = 1; i <= lastDay; i++) {
-    let formattedDate = `${currentYear}-${String(currentMonth + 1).padStart(
-      2,
-      "0"
-    )}-${String(i).padStart(2, "0")}`;
-    htmlDummy += `<th class="day" id="${formattedDate}">${createSvgIcon(
-      formattedDate
-    )}${i}</div>`;
+  let currentDate = firstDate;
+  while (currentDate <= lastDate) {
+    htmlDummy += `<th class="day" id="${getFormattedDate(
+      currentDate
+    )}">${renderCalendarIcon(currentDate)}${currentDate.getDate()}</div>`;
 
-    if ((firstDay + i - 1) % 7 == 6) {
+    if (currentDate.getDay() == 6) {
       htmlDummy += `</tr><tr>`;
     }
+    currentDate.setDate(currentDate.getDate() + 1);
   }
 
   // 달력의 공백 - 이번달
   for (let i = limitDay; i < nextDay; i++) {
-    htmlDummy += `<th class="day invisible">${createSvgIcon()}${i}</div>`;
+    htmlDummy += `<th class="day invisible">${renderCalendarIcon(date)}</div>`;
   }
 
   document.querySelector("tbody").innerHTML = htmlDummy;
 }
 
-// 선택한 날짜를 포커싱하고 date를 새로 지정함.
-async function focusedDay(formattedDate, prevDate) {
-  let seletedDay = document.getElementById(String(formattedDate));
-  seletedDay.classList.add("selected");
-
-  if (arguments.length > 1 && formattedDate !== prevDate) {
-    let prevDateElement = document.getElementById(String(prevDate));
-    prevDateElement.classList.remove("selected");
-  }
-  date = parseDate(formattedDate);
-}
-
 // Date() -> yyyy-MM-dd
 function getFormattedDate(date) {
-  const today = date;
-
-  const year = today.getFullYear();
-  const month = (today.getMonth() + 1).toString().padStart(2, "0");
-  const day = today.getDate().toString().padStart(2, "0");
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
 
   const dateString = year + "-" + month + "-" + day;
 
@@ -80,9 +79,9 @@ function getFormattedDate(date) {
 }
 
 // yyyy-MM-dd -> Date()
-function parseDate(date) {
+function parseDate(formattedDate) {
   // 문자열을 '-'를 기준으로 나누어 배열로 만듦
-  const dateArray = date.split("-");
+  const dateArray = formattedDate.split("-");
 
   // 년, 월, 일을 추출
   const year = parseInt(dateArray[0], 10);
@@ -92,34 +91,53 @@ function parseDate(date) {
   return new Date(year, month, day);
 }
 
-// 각 날마다 이벤트 핸들러 붙여주기 - 캘린더 렌더 후 실행
+// 각 날 div마다 이벤트 핸들러 붙여주기 - 캘린더 렌더링 후 실행
+// 1. 달력의 아이콘을 누르면 해당 날짜를 foucs하고, 전역 변수 date를 업데이트함.
+// 2. todo 아이템들을 렌더링함.
 const attachDayHandler = () => {
   document.querySelectorAll(".day").forEach((dayElement) => {
-    // 1. 날짜를 클릭하면 foucs하고, date를 업데이트함.
-    // 2. todo 아이템들을 렌더링함.
     dayElement.addEventListener("click", (event) => {
       const selectedDay = event.target.closest(".day");
       focusedDay(selectedDay.id, prevDate);
       prevDate = selectedDay.id;
+
+      // 날짜 전역 변수 업데이트
       date = parseDate(selectedDay.id);
       console.log(`new date => ${date}`);
 
+      // todo 추가 버튼 활성화
+      document.getElementById("daily-routine-button").disabled = false;
       renderTodoItems(date);
     });
   });
 };
 
+// 선택한 날짜를 포커싱하고 date를 새로 지정함.
+async function focusedDay(dateId, prevDateId) {
+  let seletedDay = document.getElementById(dateId);
+  seletedDay.classList.add("selected");
+
+  if (arguments.length > 1 && dateId !== prevDateId) {
+    let prevDateElement = document.getElementById(prevDateId);
+    prevDateElement.classList.remove("selected");
+  }
+  // 날짜 전역 변수 업데이트
+  date = parseDate(dateId);
+}
+
 // 이전달 이동
 document.querySelector(`#prev`).onclick = () => {
   const lastDayOfLastMonth = new Date(date.getFullYear(), date.getMonth(), 0);
 
+  // 전역 변수 date 업데이트
   date = lastDayOfLastMonth;
-  prevDate = getFormattedDate(lastDayOfLastMonth);
+  dateId = getFormattedDate(lastDayOfLastMonth);
+  prevDate = dateId;
 
   renderCalender(new Date(date.setMonth(lastDayOfLastMonth.getMonth()))).then(
     () => {
       attachDayHandler();
-      focusedDay(prevDate);
+      focusedDay(dateId);
       renderTodoItems(lastDayOfLastMonth);
     }
   );
@@ -134,127 +152,26 @@ document.querySelector(`#next`).onclick = () => {
   );
 
   date = firstDayOfNextMonth;
-  prevDate = getFormattedDate(firstDayOfNextMonth);
+  dateId = getFormattedDate(firstDayOfNextMonth);
+  prevDate = dateId;
 
   renderCalender(
     new Date(firstDayOfNextMonth.setMonth(firstDayOfNextMonth.getMonth()))
   ).then(() => {
     attachDayHandler();
-    focusedDay(prevDate);
+    focusedDay(dateId);
     renderTodoItems(firstDayOfNextMonth);
   });
 };
 
-let date = new Date();
-console.log(date);
-let formattedDate = getFormattedDate(date);
-let prevDate = formattedDate;
-
-renderCalender(date).then(() => {
-  attachDayHandler();
-  focusedDay(formattedDate);
-  renderTodoItems(new Date());
-});
-
 //-------------------------todo 부분---------------------------------
 
-document.querySelector("#daily-routine-button").onclick = () => {
-  document.getElementById("daily-routine-button").disabled = true;
-  console.log(date);
-  addTodoItem(date);
-};
-
-let id_cnt = 0;
-
-// 투두 등록하기
-async function addTodoItem(selectedDate) {
-  const dailyRoutineContainer = document.querySelector("#daily-routine-list");
-
-  // 새로운 todo__item 생성하기 with text input
-  const todoItem = document.createElement("div");
-  todoItem.className = "todo__item";
-
-  todoItem.innerHTML = `
-  <svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="34"
-  height="34"
-  viewBox="0 0 151 151"
-  fill="none"
->
-  <path
-    fill="#D9D9D9"
-    d="M100.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
-  />
-  <path
-    fill="#D9D9D9"
-    d="M150.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
-  />
-  <path
-    fill="#D9D9D9"
-    d="M150.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
-  />
-  <path
-    fill="#D9D9D9"
-    d="M100.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
-  />
-</svg>
-<input type="text" id="todo-item--input" placeholder="할 일 입력"></input>
-<div id="new_todo"></div>
-    <i class="bi bi-three-dots icon"></i>
-  `;
-
-  dailyRoutineContainer.appendChild(todoItem);
-
-  // input 설정
-  let input = document.getElementById("todo-item--input");
-  input.focus();
-  input.style = styleInput;
-
-  // input 입력 후, 엔터를 치면 input은 삭제하고 input값을 todo_iteem--text에 넣어줌.
-  input.addEventListener("keypress", function (key) {
-    if (key.key == "Enter") {
-      let inputValue = input.value;
-      input.remove();
-      todo_text = document.getElementById("new_todo");
-      todo_text.textContent = inputValue;
-      todo_text.id = id_cnt;
-      todo_text.classList.add("todo__item--text");
-
-      let todoItem = {
-        id: id_cnt,
-        text: input.value,
-        checked: false,
-      };
-
-      let todoArray =
-        JSON.parse(localStorage.getItem(getFormattedDate(selectedDate))) || [];
-
-      todoArray.push(todoItem);
-      localStorage.setItem(
-        getFormattedDate(selectedDate),
-        JSON.stringify(todoArray)
-      );
-      console.log(localStorage);
-
-      updateTodoCount(selectedDate);
-
-      // 버튼은 다시 활성화 해줌.
-      document.getElementById("daily-routine-button").disabled = false;
-
-      id_cnt++;
-    }
-  });
-
-  return;
-}
-
-// 투두리스트 로컬 스토리지에서 가져와서 렌더링
+// 투두 아이템들을 로컬 스토리지에서 가져와서 렌더링
 function renderTodoItems(date) {
+  const dateId = getFormattedDate(date);
   const todoList = document.querySelector("#daily-routine-list");
 
-  let todoArray =
-    JSON.parse(localStorage.getItem(getFormattedDate(date))) || [];
+  let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
   // console.log("data from local storage ->", todoArray);
 
   // 기존의 todoList의 HTML을 다 지운다.
@@ -268,61 +185,293 @@ function renderTodoItems(date) {
     // 새로운 todo__item 생성하기 with text input
     const todoItem = document.createElement("div");
     todoItem.className = "todo__item";
+    todoItem.id = todoInfo.id;
 
-    todoItem.innerHTML = `
-    ${renderSvg()}
-  <div id="${todoInfo.id}" class="todo__item--text">${todoInfo.text}</div>
-      <i class="bi bi-three-dots icon"></i>
-    `;
+    const iconContainer = document.createElement("div");
+    iconContainer.classList.add("icon-container");
 
-    console.log(todoItem);
+    const numberDiv = document.createElement("div");
+    numberDiv.classList.add("number-overlay");
+
+    if (todoInfo.checked) {
+      todoItem.classList.add("checked");
+      iconContainer.innerHTML = renderSvg("#ff6347");
+
+      const checkIcon = document.createElement("i");
+      checkIcon.classList.add("bi", "bi-check-lg");
+      numberDiv.appendChild(checkIcon);
+    } else {
+      iconContainer.innerHTML = renderSvg();
+    }
+
+    iconContainer.appendChild(numberDiv);
+
+    const todoText = document.createElement("div");
+    todoText.classList.add("todo__item--text");
+    todoText.textContent = todoInfo.text;
+
+    const threeDotsIcon = document.createElement("i");
+    threeDotsIcon.classList.add("bi", "bi-three-dots", "icon");
+
+    todoItem.appendChild(iconContainer);
+    todoItem.appendChild(todoText);
+    todoItem.appendChild(threeDotsIcon);
+
     todoList.appendChild(todoItem);
+
+    // 아이콘 클릭 시 체크 토글
+    let toggleButton = todoItem.querySelector(".icon-container");
+    toggleButton.addEventListener("click", function () {
+      toggleChecked(date, todoItem.id);
+      updateCalendarTodo(date);
+    });
   });
 }
 
+// 새로운 todo 추가하기
+async function addTodoItem(date) {
+  let dateId = getFormattedDate(date);
+  let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
+
+  let id_cnt;
+  if (todoArray.length == 0) {
+    id_cnt = -1;
+  } else {
+    id_cnt = todoArray[todoArray.length - 1].id;
+  }
+
+  createTodoItem(id_cnt + 1);
+  inputToText(id_cnt + 1, dateId);
+}
+
+// input과 함께 새로운 todo 아이템을 생성함.
+function createTodoItem(id_cnt) {
+  const todoBoxContainer = document.querySelector("#daily-routine-list");
+
+  // 새로운 todo__item 생성하기 (+input)
+  const todoItem = document.createElement("div");
+  todoItem.className = "todo__item";
+  todoItem.id = id_cnt;
+
+  const iconContainer = document.createElement("div");
+  iconContainer.classList.add("icon-container");
+  iconContainer.innerHTML = renderSvg();
+
+  const numberDiv = document.createElement("div");
+  numberDiv.classList.add("number-overlay");
+
+  iconContainer.appendChild(numberDiv);
+
+  // <input type="text" id="todo-item--input" placeholder="할 일 입력"></input>
+  const inputElement = document.createElement("input");
+  inputElement.type = "text";
+  inputElement.id = "todo-item--input";
+  inputElement.placeholder = "할 일 입력";
+  inputElement.style = styleInput;
+
+  const todoText = document.createElement("div");
+  todoText.id = "new_todo";
+
+  const threeDotsIcon = document.createElement("i");
+  threeDotsIcon.classList.add("bi", "bi-three-dots", "icon");
+
+  todoItem.appendChild(iconContainer);
+  todoItem.appendChild(inputElement);
+  todoItem.appendChild(todoText);
+  todoItem.appendChild(threeDotsIcon);
+
+  todoBoxContainer.appendChild(todoItem);
+
+  // 아이콘 클릭 시 체크 토글
+  let toggleButton = todoItem.querySelector(".icon-container");
+  toggleButton.addEventListener("click", function () {
+    toggleChecked(date, todoItem.id);
+    updateCalendarTodo(date);
+  });
+
+  inputElement.focus();
+}
+
 const styleInput = `
-  flex: 2;
-  border: none;
-  margin: 0 var(--base-space);
-  padding-bottom: 8px;
-  padding: 8px 0px;
-  outline: none;
-  border: none;
-  border-bottom: 1px solid tomato;
+flex: 2;
+border: none;
+margin: 0 var(--base-space);
+padding-bottom: 8px;
+padding: 8px 0px;
+outline: none;
+border: none;
+border-bottom: 1px solid tomato;
 `;
 
-//-------------------------로컬 스토리지---------------------------------
+// input에서 값을 입력하고 enter를 치면 값이 local storage에 저장됨.
+function inputToText(id_cnt, dateId) {
+  let input = document.getElementById("todo-item--input");
 
-// localStorage.clear();
+  // enter -> input은 삭제하고 input의 value값을 todo_item--text에 넣어줌.
+  input.addEventListener("keypress", function (key) {
+    if (key.key == "Enter") {
+      let todoText = document.getElementById("new_todo");
+      todoText.removeAttribute("id"); // new_todo 태그 삭제
+      todoText.classList.add("todo__item--text");
+      todoText.textContent = input.value;
 
-// 클로버 아이콘
-function createSvgIcon(formattedDate) {
-  // let formattedDate = getFormattedDate(date);
+      input.remove();
+
+      let todo = {
+        id: id_cnt,
+        text: input.value,
+        checked: false,
+      };
+
+      // 새로운 todo local storage에 저장
+      let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
+
+      todoArray.push(todo);
+      localStorage.setItem(dateId, JSON.stringify(todoArray));
+      console.log(localStorage);
+
+      // 달력 todo 갯수 업데이트
+      updateCalendarTodo(date);
+
+      // 투두 추가 버튼을 다시 활성화함
+      document.getElementById("daily-routine-button").disabled = false;
+    }
+  });
+}
+
+// localStorage의 checked 값을 토글 + 해당 todo item을 체크하고 색칠함.
+function toggleChecked(date, todoId) {
+  let dateId = getFormattedDate(date);
+  let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
+
+  // 해당 id의 todo checked 여부를 토글함.
+  todoArray.forEach((todo) => {
+    if (todo.id == todoId) {
+      todo.checked = !todo.checked;
+    }
+  });
+
+  localStorage.setItem(dateId, JSON.stringify(todoArray));
+
+  // 해당 todoItem의 checked 클래스 토글
+  let todoItem = document.getElementById(todoId);
+  todoItem.classList.toggle("checked");
+
+  let svgPaths = todoItem.querySelectorAll("svg path");
+  let overlayContainer = todoItem.querySelector(".number-overlay");
+  let checkIcon = overlayContainer.querySelector(".bi-check-lg");
+
+  // checked인 경우
+  if (todoItem.classList.contains("checked")) {
+    // 색상 칠해줌
+    svgPaths.forEach((path) => (path.style.fill = "tomato"));
+    // checkIcon을 생성하여 추가
+    if (!checkIcon) {
+      checkIcon = document.createElement("i");
+      checkIcon.classList.add("bi", "bi-check-lg");
+      overlayContainer.appendChild(checkIcon);
+    }
+  } else {
+    // checked가 아닌 경우
+    svgPaths.forEach((path) => (path.style.fill = "#D9D9D9"));
+    if (checkIcon) {
+      overlayContainer.removeChild(checkIcon);
+    }
+  }
+}
+
+// 달력에 해당 날짜 투두 갯수/색 업데이트
+function updateCalendarTodo(date) {
+  let dateId = getFormattedDate(date);
+  let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
+
+  let targetDate = document.getElementById(dateId);
+  let container = targetDate.querySelector(".icon-container");
+  let svgPaths = container.querySelectorAll("svg path");
+  let overlayElement = container.querySelector(".number-overlay");
+
+  // 남은 투두의 갯수
+  let todoCount = todoArray.filter((todo) => !todo.checked).length;
+  console.log(todoCount);
+
+  // 할 일 없음
+  if (todoArray.length === 0) {
+    todoCount = " ";
+  } else {
+    // 모든 투두 완료 -> check 아이콘
+    if (todoCount === 0) {
+      todoCount = document.createElement("i");
+      todoCount.className = "bi bi-check-lg";
+      svgPaths.forEach((path) => {
+        path.style.fill = "tomato";
+      });
+    } else {
+      // 투두 몇개 완료
+      if (todoCount < todoArray.length) {
+        svgPaths.forEach((path) => {
+          path.style.fill = "tomato";
+        });
+      } else {
+        // 투두 하나도 안함
+        svgPaths.forEach((path) => {
+          path.style.fill = "#D9D9D9";
+        });
+      }
+    }
+  }
+
+  // todoCount의 타입에 따라 처리 -> 공백 or 숫자 or 체크
+  if (typeof todoCount === "number" || typeof todoCount === "string") {
+    overlayElement.textContent = todoCount;
+  } else if (todoCount instanceof Node) {
+    overlayElement.textContent = "";
+    overlayElement.appendChild(todoCount);
+  }
+}
+
+// 달력 icon 렌더링
+function renderCalendarIcon(date) {
+  let formattedDate = getFormattedDate(date);
   let todoArray = JSON.parse(localStorage.getItem(formattedDate)) || [];
 
-  todo_count = todoArray.length;
-  if (todo_count == 0) {
-    todo_count = " ";
+  let todoCount;
+  let checkedClass = "";
+  let color;
+  if (todoArray.length == 0) {
+    todoCount = " ";
+  } else {
+    todoCount = todoArray.filter((todo) => !todo.checked).length;
+
+    // 체크된 항목이 하나라도 있다면 checkedClass를 설정
+    if (todoArray.some((todo) => todo.checked)) {
+      checkedClass = "checked";
+      color = "#ff6347";
+    }
+
+    if (todoCount == 0) {
+      todoCount = `<i class="bi bi-check-lg"></i>`;
+    }
   }
 
   return `
-  <div class = "icon-container">
-    ${renderSvg()}
-  <div class="number-overlay">${todo_count}</div>
+  <div class = "icon-container ${checkedClass}">
+    ${renderSvg(color)}
+  <div class="number-overlay">${todoCount}</div>
   
   <style>
   .icon-container {
     position: relative;
-    display: inline-block;
+    display: flex;
+    // padding: 1px 0px;
   }
 
   .number-overlay {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -65%);
-    font-size: 14px; /* 적절한 크기로 조절하세요 */
-    color: white; /* 숫자 색상 */
+    transform: translate(-50%, -55%);
+    font-size: 14px;
+    color: white; 
     font-weight: bold;
   }
   </style>
@@ -330,7 +479,8 @@ function createSvgIcon(formattedDate) {
   </div>`;
 }
 
-function renderSvg() {
+// Svg 렌더링 - 색상 설정 가능
+function renderSvg(color = "#D9D9D9") {
   return `<svg
   xmlns="http://www.w3.org/2000/svg"
   width="34"
@@ -339,35 +489,29 @@ function renderSvg() {
   fill="none"
 >
   <path
-    fill="#D9D9D9"
+    fill='${color}'
     d="M100.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
   />
   <path
-    fill="#D9D9D9"
+    fill=${color}
     d="M150.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
   />
   <path
-    fill="#D9D9D9"
+    fill=${color}
     d="M150.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
   />
   <path
-    fill="#D9D9D9"
+    fill=${color}
     d="M100.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
   /></svg>`;
 }
 
-// 투두 갯수 업데이트
-function updateTodoCount(selectedDay) {
-  let formattedDate = getFormattedDate(selectedDay);
-  let todoArray = JSON.parse(localStorage.getItem(formattedDate)) || [];
+// todo 아이템 추가 버튼
+document.querySelector("#daily-routine-button").onclick = () => {
+  document.getElementById("daily-routine-button").disabled = true;
+  addTodoItem(date);
+};
 
-  todo_count = todoArray.length;
-  if (todo_count == 0) {
-    todo_count = " ";
-  }
+//-------------------------로컬 스토리지---------------------------------
 
-  const targetDay = document.getElementById(formattedDate);
-  let countElement = targetDay.querySelector(".number-overlay");
-
-  countElement.textContent = todo_count;
-}
+// localStorage.clear();
