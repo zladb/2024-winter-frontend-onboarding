@@ -2,7 +2,7 @@
 // 2. 목표 설정 버튼을 누르면, 할일 입력 버튼이 나옴. ✅
 // 3. 할일을 입력하면 local storage에 데이터를 저장하고 todoList에 출력함. ✅
 // 4. 할일을 체크하면, 컬러가 바뀜. ✅
-// 5. 할일 수정, 삭제
+// 5. 할일 수정, 삭제 ✅
 
 //-------------------------달력 부분---------------------------------
 
@@ -314,24 +314,75 @@ modal.querySelector("#delete-btn").onclick = () => {
   modal.style.display = "none";
 };
 
+modal.querySelector("#modify-btn").onclick = () => {
+  let todoId = modal.getAttribute("todoId");
+  let dateId = modal.getAttribute("dateId");
+  modal.style.display = "none";
+  modifyTodoItem(todoId, dateId);
+};
+
 // 모달 창에서 삭제를 누르면 해당 todo 삭제하기
 function deleteTodoItem(todoId, dateId) {
   let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
-  console.log(todoArray);
+  // console.log(todoArray);
 
   // id가 같은 요소를 배열에서 제거
   let updatedTodoArray = todoArray.filter((todo) => todo.id != todoId);
-  console.log(updatedTodoArray);
+  // console.log(updatedTodoArray);
 
   localStorage.setItem(dateId, JSON.stringify(updatedTodoArray));
 
   console.log("Deleting todo item with ID:", todoId);
 
   var elementToRemove = document.getElementById(todoId);
-  console.log(elementToRemove);
+  // console.log(elementToRemove);
   elementToRemove.remove();
 
   updateCalendarTodo(date);
+}
+
+// 모달 창에서 수정을 누르면 todo 텍스트 수정
+function modifyTodoItem(todoId, dateId) {
+  // 1. 기존의 해당 id의 todo__item--text를 삭제하고 <input>을 넣음.
+  // 2. 새로운 input value를 기반으로다시 todo_item--text를 생성해줌
+  // 3. local storage 값을 업데이트함.
+
+  let todoItem = document.getElementById(todoId);
+  let oldTextElement = todoItem.querySelector(".todo__item--text");
+
+  // <input type="text" id="todo-item--input" placeholder="할 일 입력"></input>
+  const inputElement = document.createElement("input");
+  inputElement.type = "text";
+  inputElement.id = "todo-item--input";
+  inputElement.value = oldTextElement.textContent;
+  inputElement.style = styleInput;
+
+  if (oldTextElement) {
+    todoItem.replaceChild(inputElement, oldTextElement);
+  }
+
+  inputElement.focus();
+
+  inputElement.addEventListener("keypress", function (key) {
+    if (key.key == "Enter") {
+      let newTodoText = document.createElement("div");
+      newTodoText.classList.add("todo__item--text");
+      newTodoText.textContent = inputElement.value;
+
+      todoItem.replaceChild(newTodoText, inputElement);
+
+      let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
+
+      todoArray.forEach((todo) => {
+        if (todo.id == todoItem.id) {
+          todo.text = newTodoText.textContent;
+        }
+      });
+
+      console.log(todoArray);
+      localStorage.setItem(dateId, JSON.stringify(todoArray));
+    }
+  });
 }
 
 const styleInput = `
@@ -370,7 +421,7 @@ function inputToText(id_cnt, dateId) {
 
       todoArray.push(todo);
       localStorage.setItem(dateId, JSON.stringify(todoArray));
-      console.log(localStorage);
+      // console.log(localStorage);
 
       // 달력 todo 갯수 업데이트
       updateCalendarTodo(date);
@@ -426,7 +477,7 @@ function toggleChecked(date, todoId) {
 function updateCalendarTodo(date) {
   let dateId = getFormattedDate(date);
   let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
-  console.log("todoArray -> ", todoArray.length);
+  // console.log("todoArray -> ", todoArray.length);
 
   let targetDate = document.getElementById(dateId);
   let container = targetDate.querySelector(".icon-container");
@@ -435,7 +486,7 @@ function updateCalendarTodo(date) {
 
   // 남은 투두의 갯수
   let todoCount = todoArray.filter((todo) => !todo.checked).length;
-  console.log("남은 투두의 갯수 -> ", todoCount);
+  // console.log("남은 투두의 갯수 -> ", todoCount);
 
   // 할 일 없음
   if (todoArray.length === 0) {
@@ -562,7 +613,7 @@ document.querySelector("#daily-routine-button").onclick = () => {
 
 // localStorage.clear();
 
-//-------------------------모달 ---------------------------------
+//-----------------------------모달-------------------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
   var modal = document.querySelector(".modal");
