@@ -210,8 +210,15 @@ function renderTodoItems(date) {
     todoText.classList.add("todo__item--text");
     todoText.textContent = todoInfo.text;
 
+    var modal = document.querySelector(".modal");
+
     const threeDotsIcon = document.createElement("i");
     threeDotsIcon.classList.add("bi", "bi-three-dots", "icon");
+    threeDotsIcon.onclick = function () {
+      modal.style.display = "block";
+      modal.setAttribute("todoId", todoItem.id);
+      modal.setAttribute("dateId", dateId);
+    };
 
     todoItem.appendChild(iconContainer);
     todoItem.appendChild(todoText);
@@ -240,12 +247,12 @@ async function addTodoItem(date) {
     id_cnt = todoArray[todoArray.length - 1].id;
   }
 
-  createTodoItem(id_cnt + 1);
+  createTodoItem(id_cnt + 1, dateId);
   inputToText(id_cnt + 1, dateId);
 }
 
 // input과 함께 새로운 todo 아이템을 생성함.
-function createTodoItem(id_cnt) {
+function createTodoItem(id_cnt, dateId) {
   const todoBoxContainer = document.querySelector("#daily-routine-list");
 
   // 새로운 todo__item 생성하기 (+input)
@@ -272,8 +279,15 @@ function createTodoItem(id_cnt) {
   const todoText = document.createElement("div");
   todoText.id = "new_todo";
 
+  var modal = document.querySelector(".modal");
+
   const threeDotsIcon = document.createElement("i");
   threeDotsIcon.classList.add("bi", "bi-three-dots", "icon");
+  threeDotsIcon.onclick = function () {
+    modal.style.display = "block";
+    modal.setAttribute("todoId", todoItem.id);
+    modal.setAttribute("dateId", dateId);
+  };
 
   todoItem.appendChild(iconContainer);
   todoItem.appendChild(inputElement);
@@ -290,6 +304,34 @@ function createTodoItem(id_cnt) {
   });
 
   inputElement.focus();
+}
+
+let modal = document.querySelector(".modal");
+modal.querySelector("#delete-btn").onclick = () => {
+  let todoId = modal.getAttribute("todoId");
+  let dateId = modal.getAttribute("dateId");
+  deleteTodoItem(todoId, dateId);
+  modal.style.display = "none";
+};
+
+// 모달 창에서 삭제를 누르면 해당 todo 삭제하기
+function deleteTodoItem(todoId, dateId) {
+  let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
+  console.log(todoArray);
+
+  // id가 같은 요소를 배열에서 제거
+  let updatedTodoArray = todoArray.filter((todo) => todo.id != todoId);
+  console.log(updatedTodoArray);
+
+  localStorage.setItem(dateId, JSON.stringify(updatedTodoArray));
+
+  console.log("Deleting todo item with ID:", todoId);
+
+  var elementToRemove = document.getElementById(todoId);
+  console.log(elementToRemove);
+  elementToRemove.remove();
+
+  updateCalendarTodo(date);
 }
 
 const styleInput = `
@@ -384,6 +426,7 @@ function toggleChecked(date, todoId) {
 function updateCalendarTodo(date) {
   let dateId = getFormattedDate(date);
   let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
+  console.log("todoArray -> ", todoArray.length);
 
   let targetDate = document.getElementById(dateId);
   let container = targetDate.querySelector(".icon-container");
@@ -392,11 +435,14 @@ function updateCalendarTodo(date) {
 
   // 남은 투두의 갯수
   let todoCount = todoArray.filter((todo) => !todo.checked).length;
-  console.log(todoCount);
+  console.log("남은 투두의 갯수 -> ", todoCount);
 
   // 할 일 없음
   if (todoArray.length === 0) {
     todoCount = " ";
+    svgPaths.forEach((path) => {
+      path.style.fill = "#D9D9D9";
+    });
   } else {
     // 모든 투두 완료 -> check 아이콘
     if (todoCount === 0) {
@@ -515,3 +561,23 @@ document.querySelector("#daily-routine-button").onclick = () => {
 //-------------------------로컬 스토리지---------------------------------
 
 // localStorage.clear();
+
+//-------------------------모달 ---------------------------------
+
+document.addEventListener("DOMContentLoaded", function () {
+  var modal = document.querySelector(".modal");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  span.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+});
