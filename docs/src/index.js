@@ -1,7 +1,7 @@
 // 1. 실제로 작동하는 달력 구현. ✅
 // 2. 목표 설정 버튼을 누르면, 할일 입력 버튼이 나옴. ✅
-// 3. 할일을 입력하면 local storage에 데이터를 저장하고 todoList에 출력함. ✅
-// 4. 할일을 체크하면, 컬러가 바뀜. ✅
+// 3. 할일을 입력하면 local storage에 데이터를 저장하고 todoList를 렌더링 함. ✅
+// 4. 할일을 체크하면, 컬러가 바뀜. + 달력 todo 갯수 업데이트 ✅
 // 5. 할일 수정, 삭제 ✅
 
 //-------------------------달력 부분---------------------------------
@@ -215,9 +215,11 @@ function renderTodoItems(date) {
     const threeDotsIcon = document.createElement("i");
     threeDotsIcon.classList.add("bi", "bi-three-dots", "icon");
     threeDotsIcon.onclick = function () {
-      modal.style.display = "block";
+      // modal.style.display = "block";
+      openModal();
       modal.setAttribute("todoId", todoItem.id);
       modal.setAttribute("dateId", dateId);
+      modal.querySelector("#todo-title").textContent = todoText.textContent;
     };
 
     todoItem.appendChild(iconContainer);
@@ -284,9 +286,10 @@ function createTodoItem(id_cnt, dateId) {
   const threeDotsIcon = document.createElement("i");
   threeDotsIcon.classList.add("bi", "bi-three-dots", "icon");
   threeDotsIcon.onclick = function () {
-    modal.style.display = "block";
+    openModal();
     modal.setAttribute("todoId", todoItem.id);
     modal.setAttribute("dateId", dateId);
+    modal.querySelector("#todo-title").textContent = todoText.textContent;
   };
 
   todoItem.appendChild(iconContainer);
@@ -609,26 +612,51 @@ document.querySelector("#daily-routine-button").onclick = () => {
   addTodoItem(date);
 };
 
-//-------------------------로컬 스토리지---------------------------------
-
-// localStorage.clear();
-
 //-----------------------------모달-------------------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
-  var modal = document.querySelector(".modal");
+  let modal = document.querySelector(".modal");
+  let modalContent = modal.querySelector(".modal-content");
 
   // Get the <span> element that closes the modal
   var span = document.getElementsByClassName("close")[0];
 
   span.onclick = function () {
-    modal.style.display = "none";
+    modalContent.style.animation = "slideOut 0.3s ease"; // slideOut 애니메이션 적용
+    modalContent.addEventListener("animationend", handleAnimationEnd, {
+      once: true,
+    });
   };
 
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function (event) {
     if (event.target === modal) {
-      modal.style.display = "none";
+      modalContent.style.animation = "slideOut 0.3s ease"; // slideOut 애니메이션 적용
+      modalContent.addEventListener("animationend", handleAnimationEnd, {
+        once: true,
+      });
     }
   };
+
+  // 애니메이션이 종료된 후에 실행할 함수 등록
+  function handleAnimationEnd() {
+    modal.style.display = "none";
+    modalContent.style.display = "none";
+    modalContent.style.animation = ""; // 애니메이션 속성 초기화
+    modalContent.removeEventListener("animationend", handleAnimationEnd); // 이벤트 리스너 제거
+  }
 });
+
+// 모달 열기 함수
+function openModal() {
+  let modal = document.querySelector(".modal");
+  let modalContent = modal.querySelector(".modal-content");
+  modalContent.style.display = "flex";
+  modalContent.style.animation = "slideIn 0.5s ease";
+  modal.style.display = "block";
+}
+
+//-------------------------로컬 스토리지---------------------------------
+
+// 로컬 스토리지 초기화
+// localStorage.clear();

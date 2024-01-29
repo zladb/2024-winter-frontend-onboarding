@@ -245,8 +245,8 @@ th {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 14px; /* 적절한 크기로 조절하세요 */
-  color: white; /* 숫자 색상 */
+  font-size: 14px;
+  color: white;
   font-weight: bold;
 }
 
@@ -258,20 +258,100 @@ th {
   display: none;
   position: fixed;
   z-index: 1;
+  bottom: 0;
   left: 0;
-  top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 .modal-content {
-  background-color: #fefefe;
-  margin: 10% auto;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  width: 585px;
+  height: 60%;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  background-color: #fefefe;
+  animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-50%, 0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(-50%, 0%);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+}
+
+.btns div {
+  margin: 0;
+  border: 0;
+  border-radius: 15px;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#modify-btn,
+#delete-btn {
+  padding: 30px 120px;
+  cursor: pointer;
+}
+
+#modify-btn div,
+#delete-btn div {
+  padding-top: 4px;
+}
+
+#modify-btn {
+  margin-right: 8px;
+}
+
+#modify-btn i {
+  color: #5483ff;
+}
+
+#delete-btn i {
+  color: #ff5d5d;
+}
+
+.btns i {
+  font-size: large;
+}
+
+#close {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .close {
@@ -281,9 +361,14 @@ th {
   font-weight: bold;
 }
 
+#todo-title {
+  padding: 24px;
+  font-size: var(--font-medium-size);
+  font-weight: 500;
+}
+
 .close:hover,
 .close:focus {
   color: black;
   text-decoration: none;
-  cursor: pointer;
 }
