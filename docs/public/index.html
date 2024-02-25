@@ -4,17 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=0.75" />
     <title>TODO Mate</title>
-
-    <link
-      rel="stylesheet"
-      media="all and (min-width:300px)"
-      href="../src/styles/style.css"
-    />
-    <link
-      rel="stylesheet"
-      media="all and (min-width:100px) and (max-width: 300px)"
-      href="../src/styles/mobile_style.css"
-    />
+    <!-- <link rel="stylesheet" href="../src/styles/style.css" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -79,7 +69,7 @@
         <div id="close">
           <div class="close">&times;</div>
         </div>
-        <div id="todo-title">무엇을 하실렵니까</div>
+        <div id="todo-title">밥 먹고 유튜브 보기</div>
         <div class="btns">
           <div id="modify-btn">
             <i class="bi bi-pen"></i>
@@ -93,6 +83,14 @@
       </div>
     </div>
 
-    <script type="module" src="../src/index.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://unpkg.com/react@17/umd/react.development.js",
+          "react-dom": "https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+        }
+      }
+    </script>
+    <!-- <script type="module" src="../src/index.js"></script> -->
   </body>
 </html>

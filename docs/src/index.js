@@ -6,10 +6,13 @@
 // 4. 할일을 체크하면, 컬러가 바뀜. + 달력 todo 갯수 업데이트 ✅
 // 5. 할일 수정, 삭제 ✅
 
-// import { createRoot } from 'react-dom/client';
+import './styles/style.css';
+
+// import { createRoot } from '../../node_modules/react-dom/client.js';
+// import { createRoot } from 'react-dom/client.js';
 
 // // Clear the existing HTML content
-// document.body.innerHTML = <div id="app"></div>;
+// document.body.innerHTML = `<div id="app"></div>`;
 
 // // Render your React component instead
 // const root = createRoot(document.getElementById('app'));
