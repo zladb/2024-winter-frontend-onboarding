@@ -11,12 +11,29 @@ import './styles/style.css';
 // import { createRoot } from '../../node_modules/react-dom/client.js';
 // import { createRoot } from 'react-dom/client.js';
 
-// // Clear the existing HTML content
-// document.body.innerHTML = `<div id="app"></div>`;
+// import React from 'react';
+// import App from './App';
+// import report
+
+import React from 'react';
+import ReactDOM from 'react-dom'
+import {createRoot} from 'react-dom/client';
+import App from './components/app.js';
+
+
+// Clear the existing HTML content
+document.body.innerHTML = `<div id="app"></div>`;
 
 // // Render your React component instead
 // const root = createRoot(document.getElementById('app'));
-// root.render(`<h1>Hello, world</h1>`);
+// root.render(<App/>);
+// Render your React component instead
+// const root = createRoot(document.getElementById('app'));
+
+// Use the createRoot().render() method to render your component
+// root.render(<App />);
+
+ReactDOM.render(<App/>, document.getElementById('app'));
 
 
 //

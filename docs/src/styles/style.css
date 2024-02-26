@@ -351,7 +351,7 @@ th {
 
 /* 중간 크기 */
 @media (max-width: 1023px) {
-  body {
+  app {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -382,12 +382,12 @@ th {
 /*최대 크기*/
 @media (min-width: 1024px) {
   html,
-  body {
+  app {
     display: flex;
     justify-content: center;
   }
 
-  body {
+  app {
     flex-direction: column;
     align-items: center;
     justify-content: center;
