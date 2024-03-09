@@ -37,7 +37,9 @@ table {
   }
 }
 
-tr {
+tr,
+.row,
+.col {
   width: 100;
   display: flex;
   justify-content: space-between;

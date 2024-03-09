@@ -18,7 +18,7 @@ import './styles/style.css';
 import React from 'react';
 import ReactDOM from 'react-dom'
 import {createRoot} from 'react-dom/client';
-import App from './components/app.js';
+import App from './pages/main_page/app.js';
 
 
 // Clear the existing HTML content
@@ -39,245 +39,245 @@ ReactDOM.render(<App/>, document.getElementById('app'));
 //
 // -------------------------달력 부분---------------------------------
 
-// Date() -> yyyy-MM-dd
-function getFormattedDate(date) {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
+// // Date() -> yyyy-MM-dd 🌷
+// function getFormattedDate(date) {
+//   const year = date.getFullYear();
+//   const month = (date.getMonth() + 1).toString().padStart(2, '0');
+//   const day = date.getDate().toString().padStart(2, '0');
 
-  const dateString = `${year}-${month}-${day}`;
+//   const dateString = `${year}-${month}-${day}`;
 
-  return dateString;
-}
+//   return dateString;
+// }
 
-// yyyy-MM-dd -> Date()
-function parseDate(formattedDate) {
-  // 문자열을 '-'를 기준으로 나누어 배열로 만듦
-  const dateArray = formattedDate.split('-');
+// // yyyy-MM-dd -> Date() 🌷
+// function parseDate(formattedDate) {
+//   // 문자열을 '-'를 기준으로 나누어 배열로 만듦
+//   const dateArray = formattedDate.split('-');
 
-  // 년, 월, 일을 추출
-  const year = parseInt(dateArray[0], 10);
-  const month = parseInt(dateArray[1] - 1, 10);
-  const day = parseInt(dateArray[2], 10);
+//   // 년, 월, 일을 추출
+//   const year = parseInt(dateArray[0], 10);
+//   const month = parseInt(dateArray[1] - 1, 10);
+//   const day = parseInt(dateArray[2], 10);
 
-  return new Date(year, month, day);
-}
+//   return new Date(year, month, day);
+// }
 
-let selectedDate = new Date();
-let selectedDateId = getFormattedDate(selectedDate);
-let prevDate = selectedDateId;
+// let selectedDate = new Date();
+// let selectedDateId = getFormattedDate(selectedDate);
+// let prevDate = selectedDateId;
 
-// 선택한 날짜를 포커싱하고 date를 새로 지정함.
-async function focusedDay(dateId, prevDateId) {
-  const seletedDay = document.getElementById(dateId);
-  seletedDay.classList.add('selected');
+// // 선택한 날짜를 포커싱하고 date를 새로 지정함.
+// async function focusedDay(dateId, prevDateId) {
+//   const seletedDay = document.getElementById(dateId);
+//   seletedDay.classList.add('selected');
 
-  if (arguments.length > 1 && dateId !== prevDateId) {
-    const prevDateElement = document.getElementById(prevDateId);
-    prevDateElement.classList.remove('selected');
-  }
-  // 날짜 전역 변수 업데이트
-  selectedDate = parseDate(dateId);
-}
+//   if (arguments.length > 1 && dateId !== prevDateId) {
+//     const prevDateElement = document.getElementById(prevDateId);
+//     prevDateElement.classList.remove('selected');
+//   }
+//   // 날짜 전역 변수 업데이트
+//   selectedDate = parseDate(dateId);
+// }
 
-// Svg 렌더링 - 색상 설정 가능
-function renderSvg(color = '#D9D9D9') {
-  return `<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="34"
-  height="34"
-  viewBox="0 0 151 151"
-  fill="none"
->
-  <path
-    fill='${color}'
-    d="M100.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
-  />
-  <path
-    fill=${color}
-    d="M150.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
-  />
-  <path
-    fill=${color}
-    d="M150.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
-  />
-  <path
-    fill=${color}
-    d="M100.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
-  /></svg>`;
-}
+// // Svg 렌더링 - 색상 설정 가능
+// function renderSvg(color = '#D9D9D9') {
+//   return `<svg
+//   xmlns="http://www.w3.org/2000/svg"
+//   width="34"
+//   height="34"
+//   viewBox="0 0 151 151"
+//   fill="none"
+// >
+//   <path
+//     fill='${color}'
+//     d="M100.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
+//   />
+//   <path
+//     fill=${color}
+//     d="M150.5 50.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
+//   />
+//   <path
+//     fill=${color}
+//     d="M150.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
+//   />
+//   <path
+//     fill=${color}
+//     d="M100.5 100.099c0 27.614-22.386 50-50 50s-50-22.386-50-50c0-27.615 22.386-50 50-50s50 22.385 50 50Z"
+//   /></svg>`;
+// }
 
-// 달력 icon 렌더링
-function renderCalendarIcon(date) {
-  const formattedDate = getFormattedDate(date);
-  const todoArray = JSON.parse(localStorage.getItem(formattedDate)) || [];
+// // 달력 icon 렌더링
+// function renderCalendarIcon(date) {
+//   const formattedDate = getFormattedDate(date);
+//   const todoArray = JSON.parse(localStorage.getItem(formattedDate)) || [];
 
-  let todoCount;
-  let checkedClass = '';
-  let color;
-  if (todoArray.length === 0) {
-    todoCount = ' ';
-  } else {
-    todoCount = todoArray.filter((todo) => !todo.checked).length;
+//   let todoCount;
+//   let checkedClass = '';
+//   let color;
+//   if (todoArray.length === 0) {
+//     todoCount = ' ';
+//   } else {
+//     todoCount = todoArray.filter((todo) => !todo.checked).length;
 
-    // 체크된 항목이 하나라도 있다면 checkedClass를 설정
-    if (todoArray.some((todo) => todo.checked)) {
-      checkedClass = 'checked';
-      color = '#ff6347';
-    }
+//     // 체크된 항목이 하나라도 있다면 checkedClass를 설정
+//     if (todoArray.some((todo) => todo.checked)) {
+//       checkedClass = 'checked';
+//       color = '#ff6347';
+//     }
 
-    if (todoCount === 0) {
-      todoCount = `<i class="bi bi-check-lg"></i>`;
-    }
-  }
+//     if (todoCount === 0) {
+//       todoCount = `<i class="bi bi-check-lg"></i>`;
+//     }
+//   }
 
-  return `
-  <div class = "icon-container ${checkedClass}">
-    ${renderSvg(color)}
-  <div class="number-overlay">${todoCount}</div>
+//   return `
+//   <div class = "icon-container ${checkedClass}">
+//     ${renderSvg(color)}
+//   <div class="number-overlay">${todoCount}</div>
   
-  <style>
-  .icon-container {
-    position: relative;
-    display: flex;
-    // padding: 1px 0px;
-  }
+//   <style>
+//   .icon-container {
+//     position: relative;
+//     display: flex;
+//     // padding: 1px 0px;
+//   }
 
-  .number-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -55%);
-    font-size: 14px;
-    color: white; 
-    font-weight: bold;
-  }
-  </style>
+//   .number-overlay {
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     transform: translate(-50%, -55%);
+//     font-size: 14px;
+//     color: white; 
+//     font-weight: bold;
+//   }
+//   </style>
 
-  </div>`;
-}
+//   </div>`;
+// }
 
-// 달력 렌더링
-async function renderCalender(date) {
-  const currentYear = date.getFullYear();
-  const currentMonth = date.getMonth();
+// // 달력 렌더링
+// async function renderCalender(date) {
+//   const currentYear = date.getFullYear();
+//   const currentMonth = date.getMonth();
 
-  window.console.log(`${currentYear}년 ${currentMonth + 1}월`);
+//   window.console.log(`${currentYear}년 ${currentMonth + 1}월`);
 
-  document.querySelector('.year-month').textContent = `${currentYear}년 ${
-    currentMonth + 1
-  }월`;
+//   document.querySelector('.year-month').textContent = `${currentYear}년 ${
+//     currentMonth + 1
+//   }월`;
 
-  // 첫 요일
-  const firstDay = new Date(date.setDate(1)).getDay();
+//   // 첫 요일
+//   const firstDay = new Date(date.setDate(1)).getDay();
 
-  // 처음 날짜, 마지막 날짜
-  const firstDate = new Date(currentYear, currentMonth, 1);
-  const lastDate = new Date(currentYear, currentMonth + 1, 0);
+//   // 처음 날짜, 마지막 날짜
+//   const firstDate = new Date(currentYear, currentMonth, 1);
+//   const lastDate = new Date(currentYear, currentMonth + 1, 0);
 
-  // 요일 구하기
-  const limitDay = firstDay + lastDate.getDate();
-  const nextDay = Math.ceil(limitDay / 7) * 7;
+//   // 요일 구하기
+//   const limitDay = firstDay + lastDate.getDate();
+//   const nextDay = Math.ceil(limitDay / 7) * 7;
 
-  let htmlDummy = '';
+//   let htmlDummy = '';
 
-  // 달력의 공백 - 지난 달
-  htmlDummy += `<tr>`;
-  for (let i = 0; i < firstDay; i += 1) {
-    htmlDummy += `<th class="day invisible">${renderCalendarIcon(date)}</div>`;
-  }
+//   // 달력의 공백 - 지난 달
+//   htmlDummy += `<tr>`;
+//   for (let i = 0; i < firstDay; i += 1) {
+//     htmlDummy += `<th class="day invisible">${renderCalendarIcon(date)}</div>`;
+//   }
 
-  // 실제 달력 부분
-  const currentDate = firstDate;
-  while (currentDate <= lastDate) {
-    htmlDummy += `<th class="day" id="${getFormattedDate(
-      currentDate,
-    )}">${renderCalendarIcon(currentDate)}${currentDate.getDate()}</div>`;
+//   // 실제 달력 부분
+//   const currentDate = firstDate;
+//   while (currentDate <= lastDate) {
+//     htmlDummy += `<th class="day" id="${getFormattedDate(
+//       currentDate,
+//     )}">${renderCalendarIcon(currentDate)}${currentDate.getDate()}</div>`;
 
-    if (currentDate.getDay() === 6) {
-      htmlDummy += `</tr><tr>`;
-    }
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
+//     if (currentDate.getDay() === 6) {
+//       htmlDummy += `</tr><tr>`;
+//     }
+//     currentDate.setDate(currentDate.getDate() + 1);
+//   }
 
-  // 달력의 공백 - 이번달
-  for (let i = limitDay; i < nextDay; i += 1) {
-    htmlDummy += `<th class="day invisible">${renderCalendarIcon(date)}</div>`;
-  }
+//   // 달력의 공백 - 이번달
+//   for (let i = limitDay; i < nextDay; i += 1) {
+//     htmlDummy += `<th class="day invisible">${renderCalendarIcon(date)}</div>`;
+//   }
 
-  document.querySelector('tbody').innerHTML = htmlDummy;
-}
+//   document.querySelector('tbody').innerHTML = htmlDummy;
+// }
 
-// 각 날 div마다 이벤트 핸들러 붙여주기 - 캘린더 렌더링 후 실행
-// 1. 달력의 아이콘을 누르면 해당 날짜를 foucs하고, 전역 변수 date를 업데이트함.
-// 2. todo 아이템들을 렌더링함.
-const attachDayHandler = () => {
-  document.querySelectorAll('.day').forEach((dayElement) => {
-    dayElement.addEventListener('click', (event) => {
-      const selectedDay = event.target.closest('.day');
-      focusedDay(selectedDay.id, prevDate);
-      prevDate = selectedDay.id;
+// // 각 날 div마다 이벤트 핸들러 붙여주기 - 캘린더 렌더링 후 실행
+// // 1. 달력의 아이콘을 누르면 해당 날짜를 foucs하고, 전역 변수 date를 업데이트함.
+// // 2. todo 아이템들을 렌더링함.
+// const attachDayHandler = () => {
+//   document.querySelectorAll('.day').forEach((dayElement) => {
+//     dayElement.addEventListener('click', (event) => {
+//       const selectedDay = event.target.closest('.day');
+//       focusedDay(selectedDay.id, prevDate);
+//       prevDate = selectedDay.id;
 
-      // 날짜 전역 변수 업데이트
-      selectedDate = parseDate(selectedDay.id);
-      window.console.log(`new date => ${selectedDate}`);
+//       // 날짜 전역 변수 업데이트
+//       selectedDate = parseDate(selectedDay.id);
+//       window.console.log(`new date => ${selectedDate}`);
 
-      // todo 추가 버튼 활성화
-      document.getElementById('daily-routine-button').disabled = false;
-      renderTodoItems(selectedDate);
-    });
-  });
-};
+//       // todo 추가 버튼 활성화
+//       document.getElementById('daily-routine-button').disabled = false;
+//       renderTodoItems(selectedDate);
+//     });
+//   });
+// };
 
-// 첫 달력 렌더링
-renderCalender(selectedDate).then(() => {
-  attachDayHandler();
-  focusedDay(selectedDateId);
-  renderTodoItems(selectedDate);
-});
+// // 첫 달력 렌더링
+// renderCalender(selectedDate).then(() => {
+//   attachDayHandler();
+//   focusedDay(selectedDateId);
+//   renderTodoItems(selectedDate);
+// });
 
-// 이전달 이동
-document.querySelector(`#prev`).onclick = () => {
-  const lastDayOfLastMonth = new Date(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth(),
-    0,
-  );
+// // 이전달 이동
+// document.querySelector(`#prev`).onclick = () => {
+//   const lastDayOfLastMonth = new Date(
+//     selectedDate.getFullYear(),
+//     selectedDate.getMonth(),
+//     0,
+//   );
 
-  // 전역 변수 date 업데이트
-  selectedDate = lastDayOfLastMonth;
-  selectedDateId = getFormattedDate(lastDayOfLastMonth);
-  prevDate = selectedDateId;
+//   // 전역 변수 date 업데이트
+//   selectedDate = lastDayOfLastMonth;
+//   selectedDateId = getFormattedDate(lastDayOfLastMonth);
+//   prevDate = selectedDateId;
 
-  renderCalender(
-    new Date(selectedDate.setMonth(lastDayOfLastMonth.getMonth())),
-  ).then(() => {
-    attachDayHandler();
-    focusedDay(selectedDateId);
-    renderTodoItems(lastDayOfLastMonth);
-  });
-};
+//   renderCalender(
+//     new Date(selectedDate.setMonth(lastDayOfLastMonth.getMonth())),
+//   ).then(() => {
+//     attachDayHandler();
+//     focusedDay(selectedDateId);
+//     renderTodoItems(lastDayOfLastMonth);
+//   });
+// };
 
-// 다음달 이동
-document.querySelector(`#next`).onclick = () => {
-  const firstDayOfNextMonth = new Date(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth() + 1,
-    1,
-  );
+// // 다음달 이동
+// document.querySelector(`#next`).onclick = () => {
+//   const firstDayOfNextMonth = new Date(
+//     selectedDate.getFullYear(),
+//     selectedDate.getMonth() + 1,
+//     1,
+//   );
 
-  selectedDate = firstDayOfNextMonth;
-  selectedDateId = getFormattedDate(firstDayOfNextMonth);
-  prevDate = selectedDateId;
+//   selectedDate = firstDayOfNextMonth;
+//   selectedDateId = getFormattedDate(firstDayOfNextMonth);
+//   prevDate = selectedDateId;
 
-  renderCalender(
-    new Date(firstDayOfNextMonth.setMonth(firstDayOfNextMonth.getMonth())),
-  ).then(() => {
-    attachDayHandler();
-    focusedDay(selectedDateId);
-    renderTodoItems(firstDayOfNextMonth);
-  });
-};
+//   renderCalender(
+//     new Date(firstDayOfNextMonth.setMonth(firstDayOfNextMonth.getMonth())),
+//   ).then(() => {
+//     attachDayHandler();
+//     focusedDay(selectedDateId);
+//     renderTodoItems(firstDayOfNextMonth);
+//   });
+// };
 
 // -----------------------------모달-------------------------------------
 
