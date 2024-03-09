@@ -1,8 +1,26 @@
 
 import { format } from "date-fns";
-import React from "react";
+import React, { useContext, useState } from "react";
+import {addMonths, subMonths} from 'date-fns';
+import { MonthContext } from "../../contexts/date_context";
 
-const RenderNavigation = ({currentMonth, prevMonth, nextMonth}) => {
+//{prevMonth, nextMonth}
+
+//currentMonth, 
+const RenderNavigation = () => {
+  const [currentMonth, setCurrentMonth] = useContext(MonthContext);
+
+  // console.log(currentMonth)
+  // useCallback 사용하기? + selectedDate도 다시 지정해주기.
+  const prevMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
+  };
+
+  const nextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1));
+  };
+
+  // console.log(currentMonth);
   return (
     <nav>
       <div className="year-month">

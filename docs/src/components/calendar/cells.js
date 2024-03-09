@@ -3,9 +3,18 @@ import { isSameMonth, isSameDay, format, addDays, parse } from 'date-fns';
 import { getFormattedDate } from '../../utils/data_utils';
 import RenderCalendarIcon from './renderCalendarIcon';
 import React from 'react';
+import { useContext } from 'react';
+import { MonthContext } from '../../contexts/date_context';
+import { SelectedDayContext } from '../../contexts/date_context';
 
+const RenderCells = () => {
+  const [currentMonth,]= useContext(MonthContext);
+  const [selectedDate, setSelectedDate] = useContext(SelectedDayContext);
 
-const RenderCells = ({ currentMonth, selectedDate, onDateClick}) => {
+  const onDateClick = (day) =>{
+      setSelectedDate(day);
+  };
+
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -14,7 +23,6 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick}) => {
   const rows = [];
   let days = [];
   let day = startDate;
-  let formattedDate = '';
   let row_index = 0;
 
 

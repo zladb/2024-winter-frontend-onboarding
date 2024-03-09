@@ -1,15 +1,13 @@
 import React from 'react';
 import Modal from './modal'
-import Todo from './todo';
-import Calendar from './new_calendar';
 import Header from './header';
+import Main from './main';
 
 function app () {
     return (
         <>
             <Header/>
-            <Calendar/>
-            <Todo/>
+            <Main/>
             <Modal/>
         </>
     );
