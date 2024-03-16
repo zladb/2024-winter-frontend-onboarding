@@ -54,6 +54,8 @@ git add -A(또는 .) // 변경된 전체 파일을 한번에 반영
 git commit -m "메시지" // 작업한 내용을 메시지에 기록
 ```
 
+git config --global core.autocrlf input
+
 ## 7. 본인 원격 저장소에 올리기
 
 -로컬에서 `commit` 명령을 실행하면 로컬 저장소에만 반영되고, 원격 Github의 저장소에는 반영되지 않는다.
