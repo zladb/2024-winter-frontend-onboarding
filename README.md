@@ -4,7 +4,7 @@
 
 이 프로젝트는 HTML/CSS/JavaScript로 TODO MATE라는 일정관리 서비스를 클론한 프로젝트입니다. 
 라이브러리 없이 순수 JavaScript로 구현한 뒤, React 라이브러리를 추가하여 코드를 리팩토링하는 중입니다.
--
+- 현재 TODO 추가하기 기능 REACT로 리팩토링 완료(24.03.18)
 
 <br/>
 
