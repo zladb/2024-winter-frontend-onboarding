@@ -9,7 +9,7 @@
 <br/>
 
 ## 🫡 try TODO MATE
-- link: https://zladb.github.io  
+- link: .. 
 
 <br/>
 
@@ -24,7 +24,7 @@
 **✔️ 달력**  
 - 달력의 각 날짜마다 하지 않은 TODO의 갯수가 표시됩니다.
 - 모든 TODO를 모두 체크하면 달력에도 체크 표시가 뜹니다.
-<img src="https://github.com/zladb/chatting_application/assets/68093782/792d3aab-f00c-45d2-867b-5643682d5933" width=30% />
+<img src="https://github.com/actions/deploy-pages/assets/68093782/9d4ec2fe-b789-4446-951f-43e5a5e2168d" width=30% />
 
 <br/>
 <br/>
@@ -32,7 +32,8 @@
 **✔️ TODO 추가**
 - 'TODO 추가하기' 버든을 누르면 새로운 TODO를 입력할 수 있는 칸이 생성됩니다.
 - 원하는 TODO 목표를 적고 ENTER 키를 누릅니다.
-<img src="https://github.com/zladb/chatting_application/assets/68093782/852a3c33-f164-45c7-a8ae-374aefef9d1e" width=30% />
+<img src="https://github.com/actions/deploy-pages/assets/68093782/37078c2a-d40b-4d81-bdca-b7ac84013a6b" width=30% />
+<img src="https://github.com/actions/deploy-pages/assets/68093782/7e4beeef-3e6f-4550-a112-40ef9dc6740a" width=30% />
 
 
 <br/>
@@ -43,6 +44,13 @@
 - 수정 버튼을 누르면 TODO를 수정할 수 있도록 INPUT이 생깁니다.
 - 삭제 버튼을 누르면 TODO가 삭제됩니다.
 <img src="https://github.com/zladb/chatting_application/assets/68093782/8edc8b9d-531f-4856-a5a0-33576d67dbb6" width=30% />
+
+<br/>
+<br/>
+
+**✔️ 반응형 가로모드**
+- 페이지의 가로가 1430px을 넘어가면 가로 모드로 전환됩니다.
+<img src="https://github.com/actions/deploy-pages/assets/68093782/0609be94-0fbf-47c4-b04f-de4ed6a099a2" width=30% />
 
 <br/>
 <br/>
