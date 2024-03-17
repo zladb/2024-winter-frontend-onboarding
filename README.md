@@ -42,8 +42,13 @@
 **✔️ TODO 수정 및 삭제**
 - TODO의 더보기 버튼을 누르면, TODO 수정 버튼과 삭제 버튼이 포함된 모달이 올라옵니다.
 - 수정 버튼을 누르면 TODO를 수정할 수 있도록 INPUT이 생깁니다.
+<img src="https://github.com/actions/deploy-pages/assets/68093782/9e271381-82c0-4cd5-8e2b-5d610db833ac" width=30% />
+<img src="https://github.com/actions/deploy-pages/assets/68093782/faa5e5b9-f88c-4df0-80a9-9c6ce21f5b35" width=30% />
+<img src="https://github.com/actions/deploy-pages/assets/68093782/3a9607b5-2105-4d2d-aa19-0d6bbc8bf11e" width=30% />
+
 - 삭제 버튼을 누르면 TODO가 삭제됩니다.
-<img src="https://github.com/zladb/chatting_application/assets/68093782/8edc8b9d-531f-4856-a5a0-33576d67dbb6" width=30% />
+<img src="https://github.com/actions/deploy-pages/assets/68093782/c8abbb30-b545-48a8-9c75-709e2ba02937" width=30% />
+<img src="https://github.com/actions/deploy-pages/assets/68093782/613a3c08-e31b-4ed3-aa4b-5c4eb0bc8b20" width=30% />
 
 <br/>
 <br/>
@@ -51,6 +56,8 @@
 **✔️ 반응형 가로모드**
 - 페이지의 가로가 1024px을 넘어가면 가로 모드로 전환됩니다.
 <img src="https://github.com/actions/deploy-pages/assets/68093782/0609be94-0fbf-47c4-b04f-de4ed6a099a2" width=70% />
+<img src="https://github.com/actions/deploy-pages/assets/68093782/9dae641b-2bd8-4547-bd72-f184dfe4e2ca" width=70% />
+
 
 <br/>
 <br/>
