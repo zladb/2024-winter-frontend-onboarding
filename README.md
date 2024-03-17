@@ -56,7 +56,7 @@
 **✔️ 반응형 가로모드**
 - 페이지의 가로가 1024px을 넘어가면 가로 모드로 전환됩니다.
 <img src="https://github.com/actions/deploy-pages/assets/68093782/0609be94-0fbf-47c4-b04f-de4ed6a099a2" width=70% />
-<img src="https://github.com/actions/deploy-pages/assets/68093782/9dae641b-2bd8-4547-bd72-f184dfe4e2ca" width=70% />
+<img src="https://github.com/actions/deploy-pages/assets/68093782/7f9ceaec-7d48-4e96-b6b6-2944c86abb78" width=70% />
 
 
 <br/>
