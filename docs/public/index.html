@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.75" />
+    <title>TODO Mate</title>
+    <!-- <link rel="stylesheet" href="../src/styles/style.css" /> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- <script type="importmap">
+      {
+        "imports": {
+          "react": "https://unpkg.com/react@17/umd/react.development.js",
+          "react-dom": "https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+        }
+      }
+    </script> -->
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <i class="bi bi-stop-circle"></i>
+      </div>
+      <div class="icons">
+        <i class="bi bi-bell icon"></i>
+        <i class="bi bi-three-dots icon"></i>
+      </div>
+    </header>
+    <div class="main">
+      <div class="main__contents">
+        <div id="main__contents--calendar">
+          <nav>
+            <div class="year-month"></div>
+            <div class="arrows">
+              <div id="prev"><i class="bi bi-chevron-left"></i></div>
+              <div id="next"><i class="bi bi-chevron-right"></i></div>
+            </div>
+          </nav>
+          <table class="calendar">
+            <thead>
+              <tr class="weeks">
+                <th class="week-day">일</th>
+                <th class="week-day">월</th>
+                <th class="week-day">화</th>
+                <th class="week-day">수</th>
+                <th class="week-day">목</th>
+                <th class="week-day">금</th>
+                <th class="week-day">토</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="main__contents--todo">
+          <div class="todo__box" id="daily-routine">
+            <button class="todo__goal" id="daily-routine-button">
+              <i class="bi bi-box2 icon"></i>Daily Todo
+              <i class="bi bi-plus-circle-fill icon" id="plus"></i>
+            </button>
+            <div class="todo__box--list" id="daily-routine-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal">
+      <div class="modal-content">
+        <div id="close">
+          <div class="close">&times;</div>
+        </div>
+        <div id="todo-title">밥 먹고 유튜브 보기</div>
+        <div class="btns">
+          <div id="modify-btn">
+            <i class="bi bi-pen"></i>
+            <div>수정</div>
+          </div>
+          <div id="delete-btn">
+            <i class="bi bi-trash3-fill"></i>
+            <div>삭제</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <script type="module" src="/lib/index.js"></script> -->
+  </body>
+</html>
