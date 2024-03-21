@@ -28,7 +28,7 @@ const Modal = ({todoTitle, todoId}) => {
           <div id="todo-title">{todoTitle}</div>
           <div className="btns">
               <ModifyButton/>
-              <DeleteButton/>
+              <DeleteButton todoId={todoId} modalRef={modalRef}/>
           </div>
         </OpenModalContent>
       </OpenModal>

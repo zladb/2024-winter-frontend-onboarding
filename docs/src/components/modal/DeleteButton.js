@@ -2,7 +2,7 @@ import React , {useContext}from "react"
 import { TodoListContext } from "../../contexts/todoList_context";
 import { ModalContext } from "../../contexts/modal_context";
 
-const DeleteButton = (todoId) => {
+const DeleteButton = ({todoId, modalRef}) => {
 
   const {todoList, setTodoList} = useContext(TodoListContext);
   const {closeModal} = useContext(ModalContext);
@@ -13,7 +13,7 @@ const DeleteButton = (todoId) => {
       }
     );
     setTodoList(updatedTodoList)
-    closeModal()
+    closeModal(modalRef)();
   };
 
     return (
