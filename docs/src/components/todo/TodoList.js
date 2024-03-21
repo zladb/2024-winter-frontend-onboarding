@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TodoItem from './TodoItem';
 import TodoAddButton from '../../components/todo/TodoAddButton';
 
 const TodoList = ({ todoItemList, handleSubmit,addNewTodo, onClickIcon }) => {
+
   return (
     <>
       <TodoAddButton addNewTodo={addNewTodo} />
@@ -19,6 +20,7 @@ const TodoList = ({ todoItemList, handleSubmit,addNewTodo, onClickIcon }) => {
             />
           );
         })}
+        {/* <Modal/> */}
       </div>
     </>
   );

@@ -246,6 +246,10 @@ th {
   }
 }
 
+.close {
+  cursor: pointer;
+}
+
 .btns {
   display: flex;
   justify-content: center;

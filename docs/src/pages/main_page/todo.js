@@ -5,8 +5,9 @@ import TodoList from "../../components/todo/TodoList.js";
 import { TodoListContext } from "../../contexts/todoList_context.js";
 
 const Todo = () => {
-  const [selectedDate, setSelectedDate] = useContext(SelectedDayContext);
+  const [selectedDate] = useContext(SelectedDayContext);
   const {todoList, setTodoList} = useContext(TodoListContext);
+
   let dateId = getFormattedDate(selectedDate);
 
   useEffect(() => {
@@ -14,7 +15,14 @@ const Todo = () => {
     setTodoList(JSON.parse(localStorage.getItem(dateId)) || []);
   }, [selectedDate]);
 
-  // todo의 text값을 업데이트해서 local storage에 저장함.
+  useEffect(()=>{
+    localStorage.setItem(dateId, JSON.stringify(todoList));
+    console.log(
+      `업데이트 된 리스트를 localstorage에 저장 => ${todoList}`,
+    );
+  }, [todoList]);
+
+  // todo의 text값을 업데이트
   const handleSubmit = ({ id, value }) => {
     const updatedTodoList = todoList.map((todo) => {
       if (todo.id === id) {
@@ -24,11 +32,6 @@ const Todo = () => {
     });
 
     setTodoList(updatedTodoList);
-
-    localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
-    console.log(
-      `업데이트 된 리스트를 localstorage에 저장 => ${updatedTodoList}`,
-    );
   };
 
   // 새 todo를 생성해서 todo리스트 마지막에 추가함.
@@ -42,7 +45,7 @@ const Todo = () => {
     const updatedTodoList = [...todoList, newTodo];
     setTodoList(updatedTodoList);
 
-    localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
+    // localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
     // console.log(`새로운 아이템추가 후 localstorage 저장 => ${updatedTodoList}`);
   };
 
@@ -57,8 +60,10 @@ const Todo = () => {
     });
     setTodoList(updatedTodoList);
 
-    localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
+    // localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
   };
+
+
 
   return (
     <div id="main__contents--todo">
@@ -70,6 +75,7 @@ const Todo = () => {
           onClickIcon={onClickIcon}
         />
       </div>
+      {/* {showModal?<Modal/>:<></>} */}
     </div>
   );
 };

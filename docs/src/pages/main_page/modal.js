@@ -1,29 +1,39 @@
 
-import React, {Component} from "react";
+import React, { useEffect, useRef, useContext } from 'react';
+import ModifyButton from "../../components/modal/ModifyButton.js";
+import DeleteButton from "../../components/modal/DeleteButton.js";
+import { OpenModal, OpenModalContent } from "../../styles/modal/opened_modal.js";
+import { ModalContext } from '../../contexts/modal_context.js';
 
-class Modal extends Component{
-    render(){
-        return (
-            <div className="modal">
-            <div className="modal-content">
-                <div id="close">
-                <div className="close">&times;</div>
-                </div>
-                <div id="todo-title">밥 먹고 유튜브 보기</div>
-                <div className="btns">
-                <div id="modify-btn">
-                    <i className="bi bi-pen"></i>
-                    <div>수정</div>
-                </div>
-                <div id="delete-btn">
-                    <i className="bi bi-trash3-fill"></i>
-                    <div>삭제</div>
-                </div>
-                </div>
-            </div>
-            </div>
-        );
-    }
-}
+const Modal = ({todoTitle, todoId}) => {
+  const {closeModal} = useContext(ModalContext);
+
+  console.log(todoTitle, todoId)
+  const modalRef = useRef(null);
+  useEffect(()=>{
+    if(!modalRef.current) return;
+    setTimeout(()=>{
+      modalRef.current.style.transform = "translate(-50%,0)";
+      modalRef.current.style.opacity = "1";
+    },10);
+  },[modalRef]);
+
+  return (
+    <>
+      <OpenModal>
+        <OpenModalContent ref={modalRef}>
+        <div id="close">
+            <div className="close" onClick={closeModal(modalRef)}>&times;</div>
+          </div>
+          <div id="todo-title">{todoTitle}</div>
+          <div className="btns">
+              <ModifyButton/>
+              <DeleteButton/>
+          </div>
+        </OpenModalContent>
+      </OpenModal>
+    </>
+  );
+};
 
 export default Modal

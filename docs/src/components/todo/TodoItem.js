@@ -1,9 +1,11 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import StyleInput from '../../styles/inputStyle';
 import { renderSvg } from '../render_svg';
+import { ModalContext } from '../../contexts/modal_context';
 
-const TodoItem = ({ todo, handleSubmit, onClickIcon, isNew }) => {
+const TodoItem = ({ todo, handleSubmit, onClickIcon, isNew}) => {
   const [isEditing, setIsEditing] = useState(false);
+  const {openModal} = useContext(ModalContext);
   const inputRef = useRef(null);
 
   // 새롭게 추가 되는 todo이면 편집모드
@@ -46,7 +48,7 @@ const TodoItem = ({ todo, handleSubmit, onClickIcon, isNew }) => {
       ) : (
         <div className='todo__item--text'>{todo.text}</div>
       )}
-      <i className="bi bi-three-dots icon" />
+      <i className="bi bi-three-dots icon" onClick={()=>openModal(todo)} />
     </div>
   );
 };
