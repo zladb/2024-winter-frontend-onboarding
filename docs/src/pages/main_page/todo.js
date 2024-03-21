@@ -15,12 +15,9 @@ const Todo = () => {
     setTodoList(JSON.parse(localStorage.getItem(dateId)) || []);
   }, [selectedDate]);
 
-  useEffect(()=>{
-    localStorage.setItem(dateId, JSON.stringify(todoList));
-    console.log(
-      `업데이트 된 리스트를 localstorage에 저장 => ${todoList}`,
-    );
-  }, [todoList]);
+  // useEffect(()=>{
+
+  // }, [todoList]);
 
   // todo의 text값을 업데이트
   const handleSubmit = ({ id, value }) => {
@@ -32,6 +29,11 @@ const Todo = () => {
     });
 
     setTodoList(updatedTodoList);
+
+    localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
+    console.log(
+      `업데이트 된 리스트를 localstorage에 저장 => ${updatedTodoList}`,
+    );
   };
 
   // 새 todo를 생성해서 todo리스트 마지막에 추가함.
@@ -45,8 +47,8 @@ const Todo = () => {
     const updatedTodoList = [...todoList, newTodo];
     setTodoList(updatedTodoList);
 
-    // localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
-    // console.log(`새로운 아이템추가 후 localstorage 저장 => ${updatedTodoList}`);
+    localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
+    console.log(`새로운 아이템추가 후 localstorage 저장 => ${updatedTodoList}`);
   };
 
   // 아이콘을 클릭하면 체크 여부가 바뀜.
@@ -60,7 +62,7 @@ const Todo = () => {
     });
     setTodoList(updatedTodoList);
 
-    // localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
+    localStorage.setItem(dateId, JSON.stringify(updatedTodoList));
   };
 
 

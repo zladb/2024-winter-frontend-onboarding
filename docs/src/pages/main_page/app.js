@@ -8,7 +8,6 @@ function app () {
         <>
             <Header/>
             <Main/>
-            {/* <Modal/> */}
         </>
     );
 }

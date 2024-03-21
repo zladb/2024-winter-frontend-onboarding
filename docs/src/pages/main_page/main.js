@@ -32,20 +32,23 @@ export const Main = () => {
       },500);
     }
     
-
-
     // const value = useMemo(() => [counter, actions], [counter, actions]);
 
     return (
       <MonthContext.Provider value={[currentMonth, setCurrentMonth]}>
         <SelectedDayContext.Provider value={[selectedDate, setSelectedDate]}>
-          <TodoListContext.Provider value={{todoList, setTodoList}}>
-            <ModalContext.Provider value={{openModal, closeModal}}>
+          <TodoListContext.Provider value={{ todoList, setTodoList }}>
+            <ModalContext.Provider value={{ openModal, closeModal }}>
               <div className="main">
                 <div className="main__contents">
                   <Calendar />
                   <Todo />
-                  {showModal&&<Modal todoTitle={modalTodo.todoTitle} todoId={modalTodo.todoId}/>}
+                  {showModal && (
+                    <Modal
+                      todoTitle={modalTodo.todoTitle}
+                      todoId={modalTodo.todoId}
+                    />
+                  )}
                 </div>
               </div>
             </ModalContext.Provider>
