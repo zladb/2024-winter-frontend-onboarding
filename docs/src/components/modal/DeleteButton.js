@@ -4,17 +4,17 @@ import { ModalContext } from "../../contexts/modal_context";
 import { SelectedDayContext } from "../../contexts/date_context";
 import { getFormattedDate } from "../../utils/data_utils";
 
-const DeleteButton = ({todoId, modalRef}) => {
-
+const DeleteButton = ({modalRef}) => {
   const {todoList, setTodoList} = useContext(TodoListContext);
   const {closeModal} = useContext(ModalContext);
+  const {modalTodo} = useContext(ModalContext);
   const [selectedDate] = useContext(SelectedDayContext);
   let dateId = getFormattedDate(selectedDate);
 
   const deleteTodoItem = () => {
     const updatedTodoList = todoList.filter(
       (todo)=>{
-        return todo.id !== todoId 
+        return todo.id !== modalTodo.todoId 
       }
     );
     setTodoList(updatedTodoList)

@@ -9,7 +9,6 @@ const TodoList = ({ todoItemList, handleSubmit,addNewTodo, onClickIcon }) => {
       <TodoAddButton addNewTodo={addNewTodo} />
       <div className="todo__box--list" id="daily-routine-list">
         {todoItemList.map((todo) => {
-          // console.log(todo);
           return (
             <TodoItem
               key={todo.id}
@@ -20,7 +19,6 @@ const TodoList = ({ todoItemList, handleSubmit,addNewTodo, onClickIcon }) => {
             />
           );
         })}
-        {/* <Modal/> */}
       </div>
     </>
   );

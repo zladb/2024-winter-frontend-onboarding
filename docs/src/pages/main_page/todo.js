@@ -15,9 +15,6 @@ const Todo = () => {
     setTodoList(JSON.parse(localStorage.getItem(dateId)) || []);
   }, [selectedDate]);
 
-  // useEffect(()=>{
-
-  // }, [todoList]);
 
   // todo의 text값을 업데이트
   const handleSubmit = ({ id, value }) => {
@@ -77,7 +74,6 @@ const Todo = () => {
           onClickIcon={onClickIcon}
         />
       </div>
-      {/* {showModal?<Modal/>:<></>} */}
     </div>
   );
 };

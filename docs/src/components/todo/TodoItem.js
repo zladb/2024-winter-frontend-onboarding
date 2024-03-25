@@ -10,7 +10,7 @@ const TodoItem = ({ todo, handleSubmit, onClickIcon, isNew}) => {
 
   // 새롭게 추가 되는 todo이면 편집모드
   React.useEffect(()=>{
-    if (isNew){
+    if (isNew) {
       setIsEditing(true);
     }
   }, []);
@@ -21,6 +21,10 @@ const TodoItem = ({ todo, handleSubmit, onClickIcon, isNew}) => {
       inputRef.current.focus();
     }
   }, [isEditing]);
+
+  const modifyTodo = () =>{
+    setIsEditing(true);
+  };
 
   const handleEnter = (e) => {
     if (e.key === 'Enter') {
@@ -48,7 +52,7 @@ const TodoItem = ({ todo, handleSubmit, onClickIcon, isNew}) => {
       ) : (
         <div className='todo__item--text'>{todo.text}</div>
       )}
-      <i className="bi bi-three-dots icon" onClick={()=>openModal(todo)} />
+      <i className="bi bi-three-dots icon" onClick={()=>openModal({todo:todo, modifyTodo:modifyTodo})} />
     </div>
   );
 };

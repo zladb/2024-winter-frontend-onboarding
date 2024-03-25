@@ -17,9 +17,9 @@ export const Main = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalTodo, setmodalTodo] = useState({todoTitle: '밥먹기', todoId: 0});
 
-    const openModal = (todo)=>{
+    const openModal = ({todo, modifyTodo})=>{
       console.log(todo)
-      setmodalTodo({todoTitle:todo.text, todoId:todo.id})
+      setmodalTodo({todoTitle:todo.text, todoId:todo.id, modifyTodo:modifyTodo})
       setShowModal(true);
     };
 
@@ -38,16 +38,13 @@ export const Main = () => {
       <MonthContext.Provider value={[currentMonth, setCurrentMonth]}>
         <SelectedDayContext.Provider value={[selectedDate, setSelectedDate]}>
           <TodoListContext.Provider value={{ todoList, setTodoList }}>
-            <ModalContext.Provider value={{ openModal, closeModal }}>
+            <ModalContext.Provider value={{ openModal, closeModal, modalTodo, setmodalTodo}}>
               <div className="main">
                 <div className="main__contents">
                   <Calendar />
                   <Todo />
                   {showModal && (
-                    <Modal
-                      todoTitle={modalTodo.todoTitle}
-                      todoId={modalTodo.todoId}
-                    />
+                    <Modal/>
                   )}
                 </div>
               </div>

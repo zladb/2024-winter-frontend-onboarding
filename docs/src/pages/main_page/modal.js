@@ -5,11 +5,11 @@ import DeleteButton from "../../components/modal/DeleteButton.js";
 import { OpenModal, OpenModalContent } from "../../styles/modal/opened_modal.js";
 import { ModalContext } from '../../contexts/modal_context.js';
 
-const Modal = ({todoTitle, todoId}) => {
-  const {closeModal} = useContext(ModalContext);
+const Modal = () => {
+  const {closeModal, modalTodo} = useContext(ModalContext);
 
-  console.log(todoTitle, todoId)
   const modalRef = useRef(null);
+
   useEffect(()=>{
     if(!modalRef.current) return;
     setTimeout(()=>{
@@ -25,10 +25,10 @@ const Modal = ({todoTitle, todoId}) => {
         <div id="close">
             <div className="close" onClick={closeModal(modalRef)}>&times;</div>
           </div>
-          <div id="todo-title">{todoTitle}</div>
+          <div id="todo-title">{modalTodo.todoTitle}</div>
           <div className="btns">
-              <ModifyButton/>
-              <DeleteButton todoId={todoId} modalRef={modalRef}/>
+              <ModifyButton modalRef={modalRef}/>
+              <DeleteButton modalRef={modalRef}/>
           </div>
         </OpenModalContent>
       </OpenModal>
