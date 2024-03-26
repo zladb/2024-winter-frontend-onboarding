@@ -22,12 +22,12 @@ export const OpenModalContent = styled.div`
         bottom: 0;
         left: 50%;
         transform: translate(-50%,100%);
-        opacity: 0;
+        opacity: 1;
         padding: 20px;
         width: 585px;
         height: 60%;
         border-top-right-radius: 20px;
         border-top-left-radius: 20px;
         background-color: #fefefe;
-        transition: all 0.5s ease-in-out;
+        transition: all 0.2s ease-in-out;
 `;

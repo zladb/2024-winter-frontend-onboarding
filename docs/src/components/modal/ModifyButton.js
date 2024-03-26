@@ -1,13 +1,13 @@
 import React, {useContext} from "react"
 import { ModalContext } from "../../contexts/modal_context";
 
-const ModifyButton = ({modalRef}) => {
+const ModifyButton = () => {
     const {modalTodo} = useContext(ModalContext);
     const {closeModal} = useContext(ModalContext);
 
     const ModifyTodoItem = () => {
       modalTodo.modifyTodo()
-      closeModal(modalRef)();
+      closeModal();
     };
 
     return (

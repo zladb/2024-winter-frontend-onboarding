@@ -141,6 +141,10 @@ th {
   margin: 40px 0px;
 }
 
+.todo__box {
+  width: 100%;
+}
+
 .todo__item {
   display: flex;
   justify-content: space-between;
@@ -398,6 +402,7 @@ th {
     align-items: center;
     justify-content: center;
     width: 100%;
+    max-width: 1248px;
   }
 
   header,

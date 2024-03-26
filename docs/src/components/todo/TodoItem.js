@@ -19,6 +19,7 @@ const TodoItem = ({ todo, handleSubmit, onClickIcon, isNew}) => {
   React.useEffect(() => {
     if (isEditing) {
       inputRef.current.focus();
+      inputRef.current.value=todo.text;
     }
   }, [isEditing]);
 

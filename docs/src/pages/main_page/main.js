@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Todo from './todo';
 import Calendar from './calendar';
 import { MonthContext } from "../../contexts/date_context";
@@ -17,35 +17,46 @@ export const Main = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalTodo, setmodalTodo] = useState({todoTitle: '밥먹기', todoId: 0});
 
+    const modalRef = useRef(null);
+    const modalBGRef = useRef(null);
+
     const openModal = ({todo, modifyTodo})=>{
       console.log(todo)
       setmodalTodo({todoTitle:todo.text, todoId:todo.id, modifyTodo:modifyTodo})
       setShowModal(true);
     };
 
-    const closeModal = (ref)=>()=>{
-      if(!ref.current) return;
-      ref.current.style.transform = "translate(-50%,100%)";
-      ref.current.style.opacity = "0";
+    const closeModal = () =>{
+      if(!modalRef.current) return;
+      modalRef.current.style.transform = "translate(-50%,100%)";
+      modalRef.current.style.opacity = "0";
       setTimeout(()=>{
         setShowModal(false);
-      },500);
+      },200);
     }
-    
+  
     // const value = useMemo(() => [counter, actions], [counter, actions]);
 
     return (
       <MonthContext.Provider value={[currentMonth, setCurrentMonth]}>
         <SelectedDayContext.Provider value={[selectedDate, setSelectedDate]}>
           <TodoListContext.Provider value={{ todoList, setTodoList }}>
-            <ModalContext.Provider value={{ openModal, closeModal, modalTodo, setmodalTodo}}>
+            <ModalContext.Provider
+              value={{
+                showModal,
+                openModal,
+                closeModal,
+                modalTodo,
+                setmodalTodo,
+                modalRef,
+                modalBGRef,
+              }}
+            >
               <div className="main">
                 <div className="main__contents">
                   <Calendar />
                   <Todo />
-                  {showModal && (
-                    <Modal/>
-                  )}
+                  {showModal && <Modal />}
                 </div>
               </div>
             </ModalContext.Provider>
