@@ -142,6 +142,7 @@ th {
 }
 
 .todo__box {
+  min-width: 300px;
   width: 100%;
 }
 
@@ -366,7 +367,7 @@ th {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 90%;
+    width: 100%;
     /* overflow: hidden; */
   }
 
@@ -407,7 +408,7 @@ th {
 
   header,
   .main {
-    width: 100%;
+    width: 95%;
     max-width: 1248px;
     margin: 0 22px;
   }
