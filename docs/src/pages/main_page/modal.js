@@ -17,37 +17,27 @@ const Modal = () => {
   },[modalRef]);
 
 
-  // const handleClickOutside = ({target}) => {
-  //   if(!modalRef.current) return;
-  //   if(!modalBGRef.current) return;
-  //   if (showModal && !modalBGRef || !modalBGRef.current.contains(target)){
-  //     console.log('??')
-  //     closeModal();
-  //   };
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener('click', handleClickOutside);
-  //   return () => {
-  //     window.removeEventListener('click', handleClickOutside);
-  //   };
-  // }, []);
+  const handleClickOutside = ({target}) => {
+    if(!modalRef.current) return;
+    if(!modalBGRef.current) return;
+    if (showModal&&target == modalBGRef.current){
+      closeModal();
+    };
+  };
 
   return (
-    <>
-      <OpenModal ref={modalBGRef}>
-        <OpenModalContent ref={modalRef}>
-        <div id="close">
-            <div className="close" onClick={closeModal}>&times;</div>
-          </div>
-          <div id="todo-title">{modalTodo.todoTitle}</div>
-          <div className="btns">
-              <ModifyButton/>
-              <DeleteButton/>
-          </div>
-        </OpenModalContent>
-      </OpenModal>
-    </>
+    <OpenModal ref={modalBGRef} onClick={handleClickOutside}>
+      <OpenModalContent ref={modalRef}>
+      <div id="close">
+          <div className="close" onClick={closeModal}>&times;</div>
+        </div>
+        <div id="todo-title">{modalTodo.todoTitle}</div>
+        <div className="btns">
+            <ModifyButton/>
+            <DeleteButton/>
+        </div>
+      </OpenModalContent>
+    </OpenModal>
   );
 };
 

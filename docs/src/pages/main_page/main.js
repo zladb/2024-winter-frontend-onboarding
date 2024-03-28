@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useCallback } from "react";
 import { useState, useRef } from "react";
 import Todo from './todo';
 import Calendar from './calendar';
@@ -20,22 +20,23 @@ export const Main = () => {
     const modalRef = useRef(null);
     const modalBGRef = useRef(null);
 
-    const openModal = ({todo, modifyTodo})=>{
+    console.log('render_main');
+
+    const openModal = useCallback(({todo, modifyTodo})=>{
       console.log(todo)
       setmodalTodo({todoTitle:todo.text, todoId:todo.id, modifyTodo:modifyTodo})
       setShowModal(true);
-    };
+    }, []);
 
-    const closeModal = () =>{
+    const closeModal = useCallback(() =>{
       if(!modalRef.current) return;
       modalRef.current.style.transform = "translate(-50%,100%)";
       modalRef.current.style.opacity = "0";
       setTimeout(()=>{
         setShowModal(false);
       },200);
-    }
+    }, [modalRef]);
   
-    // const value = useMemo(() => [counter, actions], [counter, actions]);
 
     return (
       <MonthContext.Provider value={[currentMonth, setCurrentMonth]}>

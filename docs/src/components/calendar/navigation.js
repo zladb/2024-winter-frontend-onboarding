@@ -5,15 +5,11 @@ import {addMonths, subMonths} from 'date-fns';
 import { MonthContext } from "../../contexts/date_context";
 import { SelectedDayContext } from "../../contexts/date_context";
 
-//{prevMonth, nextMonth}
-
-//currentMonth, 
 const RenderNavigation = () => {
   const [currentMonth, setCurrentMonth] = useContext(MonthContext);
   const [selectedDate, setSelectedDate] = useContext(SelectedDayContext);
 
-  // console.log(currentMonth)
-  // useCallback 사용하기? + selectedDate도 다시 지정해주기.
+  // useCallback 사용해야 하나??
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
     setSelectedDate(
@@ -28,7 +24,6 @@ const RenderNavigation = () => {
     );
   };
 
-  // console.log(currentMonth);
   return (
     <nav>
       <div className="year-month">

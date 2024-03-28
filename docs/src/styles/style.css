@@ -143,6 +143,7 @@ th {
 
 .todo__box {
   min-width: 300px;
+  /* max-width: 500px; */
   width: 100%;
 }
 
@@ -154,10 +155,12 @@ th {
 }
 
 .todo__item--text {
+  width: 100%;
   font-size: var(--font-medium-size);
   font-weight: 400;
   flex: 1;
   padding: 0 var(--base-space);
+  overflow: visible;
 }
 
 .single-line-input {
@@ -431,5 +434,9 @@ th {
 
   #main__contents--todo {
     flex: 1 0 auto;
+  }
+
+  .todo__item--text {
+    max-width: 300px;
   }
 }
