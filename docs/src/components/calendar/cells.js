@@ -2,18 +2,19 @@ import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
 import { isSameMonth, isSameDay, format, addDays, parse } from 'date-fns';
 import { getFormattedDate } from '../../utils/data_utils';
 import RenderCalendarIcon from './renderCalendarIcon';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useContext } from 'react';
 import { MonthContext } from '../../contexts/date_context';
 import { SelectedDayContext } from '../../contexts/date_context';
 
 const RenderCells = () => {
+  console.log('render cells');
   const [currentMonth,]= useContext(MonthContext);
   const [selectedDate, setSelectedDate] = useContext(SelectedDayContext);
 
-  const onDateClick = (day) =>{
+  const onDateClick = useCallback((day) =>{
       setSelectedDate(day);
-  };
+  },[]);
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);

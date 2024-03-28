@@ -141,6 +141,12 @@ th {
   margin: 40px 0px;
 }
 
+.todo__box {
+  min-width: 300px;
+  /* max-width: 500px; */
+  width: 100%;
+}
+
 .todo__item {
   display: flex;
   justify-content: space-between;
@@ -149,10 +155,12 @@ th {
 }
 
 .todo__item--text {
+  width: 100%;
   font-size: var(--font-medium-size);
   font-weight: 400;
   flex: 1;
   padding: 0 var(--base-space);
+  overflow: visible;
 }
 
 .single-line-input {
@@ -244,6 +252,10 @@ th {
     transform: translate(-50%, 100%);
     opacity: 0;
   }
+}
+
+.close {
+  cursor: pointer;
 }
 
 .btns {
@@ -358,7 +370,7 @@ th {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 90%;
+    width: 100%;
     /* overflow: hidden; */
   }
 
@@ -394,11 +406,12 @@ th {
     align-items: center;
     justify-content: center;
     width: 100%;
+    max-width: 1248px;
   }
 
   header,
   .main {
-    width: 100%;
+    width: 95%;
     max-width: 1248px;
     margin: 0 22px;
   }
@@ -421,5 +434,9 @@ th {
 
   #main__contents--todo {
     flex: 1 0 auto;
+  }
+
+  .todo__item--text {
+    max-width: 300px;
   }
 }

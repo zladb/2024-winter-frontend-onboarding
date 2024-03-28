@@ -4,9 +4,13 @@ import { renderSvg } from '../render_svg';
 
 // 달력 icon 렌더링 -> todo 갯수, 색깔 적용
 const RenderCalendarIcon = ({dateId}) => {
-    const todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
+    let todoArray = JSON.parse(localStorage.getItem(dateId)) || [];
     // console.log(todoArray)
   
+    todoArray = todoArray.filter((todo)=>{
+      return todo.text !== ""
+    })
+
     let todoCount;
     let checkedClass = '';
     let color;
